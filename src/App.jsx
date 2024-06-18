@@ -7,6 +7,7 @@ import NotFound from './Pages/NotFound';
 import  Services  from './Pages/Services';
 import AddServices from './Pages/AddServices';
 import { Products } from './Pages/Products';
+import { Orders } from './Pages/Orders';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
               <Route path="/service" element={<Services />} />
               <Route path="/service/add" element={<AddServices />} />
               <Route path="/products" element={<Products />} />
+              <Route path="/orders" element={<Orders />} />
             </Route>
           {/* </Route> */}
          
