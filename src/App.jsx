@@ -16,11 +16,7 @@ function App() {
             <Route path="/" element={<Navigate replace to="/dashboard" />} />
             <Route element={<AdminLayout />} path={""}>
               <Route path="/dashboard" element={<Dashboard />} />
-              {/* <Route path="/clinics" element={<Clinicks />} />
-              <Route
-                path="/clinicOverview/:id"
-                element={<ClinicksOverview />}
-              /> */}
+            
             </Route>
           {/* </Route> */}
          

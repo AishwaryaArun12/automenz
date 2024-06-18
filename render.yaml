@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: my-react-app
+    name: automenz
     env: static
     staticPublishPath: dist
     buildCommand: npm run build
