@@ -133,6 +133,34 @@ function FoodSideBar() {
           </li>
           <li>
             <a
+              onClick={() => {
+                navigate("/products");
+                // dispatch(openSidebar());
+                
+              }}
+              href="#"
+              className={`flex pl-7 items-center p-3  group w-full ${
+                window.location.pathname === "/products"
+                  ? "text-yellow-300 border-l-4 border-l-yellow-300 "
+                  : "text-white"
+              } `}
+              style={{
+                background: `${
+                  window.location.pathname === "/products"
+                    ? " rgba(48, 43, 14, 1)"
+                    : ""
+                }`,
+              }}
+            >
+             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M14.5 11C14.5 11.69 13.957 12 13.289 12H11V10H13.289C13.957 10 14.5 10.31 14.5 11ZM13.27 14H11V16H9V8H13.27C14.777 8 16 9.473 16 11C16 12.488 14.777 13 13.27 14ZM12 2C6.477 2 2 6.477 2 12C2 17.523 6.477 22 12 22C17.523 22 22 17.523 22 12C22 6.477 17.523 2 12 2Z" fill="#858D9D"/>
+</svg>
+
+              <span className="ms-3 ">Products</span>
+            </a>
+          </li>
+          <li>
+            <a
               // onClick={() => {
               //   navigate("vendor/customers");
               //   setDropdownproduct(false);

@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext } from 'react';
 
 // Create the context
-const LoadingContext = createContext();
+export const LoadingContext = createContext();
 
 // Create a provider component
 export const LoadingProvider = ({ children }) => {

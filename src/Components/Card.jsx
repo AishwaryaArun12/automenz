@@ -2,8 +2,8 @@ import React from 'react'
 
 export const Card = ({text}) => {
   return (
-    <div className="w-full shadow-2xl shadow-gray-800 bor mb-10 relative h-44 text-white ">
-  <img src="/card.png" className="absolute top-0 bottom-0 left-0 opacity-80 w-full h-full right-0 z-0" alt="" />
+    <div className="w-full shadow-md border border-gray-800 rounded-xl shadow-gray-800 bor mb-10 relative h-44 text-white ">
+  <img src="/card1.png" className="absolute top-0 bottom-0 left-0 opacity-80 w-full h-full right-0 z-0" alt="" />
   <div className='flex my-4'>
   <svg className="z-10 mx-5 " width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M15.6839 3.52344C12.2601 3.52344 9.47656 6.30696 9.47656 9.73082C9.47656 13.0893 12.1033 15.8075 15.5271 15.9251C15.6317 15.9121 15.7362 15.9121 15.8146 15.9251C15.8408 15.9251 15.8538 15.9251 15.88 15.9251C15.893 15.9251 15.893 15.9251 15.9061 15.9251C19.2516 15.8075 21.8783 13.0893 21.8913 9.73082C21.8913 6.30696 19.1078 3.52344 15.6839 3.52344Z" fill="#A9DFD8"/>

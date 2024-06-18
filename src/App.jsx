@@ -4,7 +4,9 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NotFound from './Pages/NotFound';
-import { Services } from './Pages/Services';
+import  Services  from './Pages/Services';
+import AddServices from './Pages/AddServices';
+import { Products } from './Pages/Products';
 
 function App() {
 
@@ -18,6 +20,8 @@ function App() {
             <Route element={<AdminLayout />} path={""}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/service" element={<Services />} />
+              <Route path="/service/add" element={<AddServices />} />
+              <Route path="/products" element={<Products />} />
             </Route>
           {/* </Route> */}
          
