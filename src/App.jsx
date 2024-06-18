@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NotFound from './Pages/NotFound';
+import { Services } from './Pages/Services';
 
 function App() {
 
@@ -16,7 +17,7 @@ function App() {
             <Route path="/" element={<Navigate replace to="/dashboard" />} />
             <Route element={<AdminLayout />} path={""}>
               <Route path="/dashboard" element={<Dashboard />} />
-            
+              <Route path="/service" element={<Services />} />
             </Route>
           {/* </Route> */}
          

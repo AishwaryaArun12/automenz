@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    background-color: black;
+  }
+  .shadowdiv {
+    box-shadow: 0 20px 30px -10px rgb(103, 103, 103);
+  }
