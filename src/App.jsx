@@ -9,7 +9,7 @@ function App() {
 
   return (
     <>
-      <BrowserRouter>
+      
         <ToastContainer position="top-center" />
         <Routes>
           {/* <Route element={<AdminPrivateRoute />}> */}
@@ -32,7 +32,7 @@ function App() {
           <Route path="/404" element={<NotFound />} />
           <Route path="*" element={<Navigate replace to="/404" />} />
         </Routes>
-      </BrowserRouter>
+    
       
     </>
   )
