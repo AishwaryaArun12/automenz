@@ -8,6 +8,7 @@ import  Services  from './Pages/Services';
 import AddServices from './Pages/AddServices';
 import { Products } from './Pages/Products';
 import { Orders } from './Pages/Orders';
+import Customers from './Pages/Customers/Customers';
 
 function App() {
 
@@ -24,6 +25,8 @@ function App() {
               <Route path="/service/add" element={<AddServices />} />
               <Route path="/products" element={<Products />} />
               <Route path="/orders" element={<Orders />} />
+              <Route path="/customers" element={<Customers />} />
+
             </Route>
           {/* </Route> */}
          
