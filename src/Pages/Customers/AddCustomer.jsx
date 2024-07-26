@@ -1,17 +1,22 @@
-import React, { useState } from 'react'
-import { ref,uploadBytes,getDownloadURL,deleteObject } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
+import { EditClient, NewClient } from '../../api/api';
 import { storage } from '../../store/Firebase';
+import { useLoading } from "../../store/LoadingContext";
+import '../../toast.css';
 
-const AddCustomer = ({setOpen}) => {
-    const [image,setImage] = useState()
+const AddCustomer = ({setOpen,setClients,clientData}) => {
+    const [image,setImage] = useState(clientData?.image)
+    const { setIsLoading } = useLoading();
     const [data,setData] = useState({
-        name: '',
-        email : '',
-        location: '',
-        contactNumber: '',
-        city: '',
-        company: '',
+        name: clientData?.name,
+        email : clientData?.email,
+        location: clientData?.location,
+        contactNumber: clientData?.contactNumber,
+        city: clientData?.city,
+        company: clientData?.company,
+        _id : clientData?._id
     })
     function handleImageSelect(e){
       const fileInput = document.createElement('input');
@@ -23,29 +28,82 @@ const AddCustomer = ({setOpen}) => {
       fileInput.click();
      
     }
-    function handleSubmit(){
-      try {
-    const pathImagesRef = ref(storage, `images/${image.name}`);
-    let file ='';
-    uploadBytes(pathImagesRef, image).then((snapshot) => {
-      console.log('Uploaded a blob or file!',snapshot);
-      getDownloadURL(ref(storage, pathImagesRef))
-  .then(async(url) => {
-     file = url;
-    const res = await axios.post('/post/create',{file,description})
-          getAllPosts();
-  })
-    }).catch(err=>{
-      toast('Error while upload image..!')
-      return;
-    });
-
-
-      } catch (error) {
-        
+    async function handleSubmit(){
+      
+      setIsLoading(true)
+      if (!data.name || !data.email || !data.location || !data.contactNumber || !data.city) {
+        toast('Please fill in all required fields');
+        setIsLoading(false);
+        return;
       }
-
+    
+      // Email format validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(data.email)) {
+        toast('Please enter a valid email address');
+        setIsLoading(false);
+        return;
+      }
+    
+      // Phone number format validation (assuming a simple 10-digit format)
+      const phoneRegex = /^\d{10}$/;
+      if (!phoneRegex.test(data.contactNumber)) {
+        toast('Please enter a valid 10-digit phone number');
+        setIsLoading(false);
+        return;
+      }
+      let file =image;
+      if(image){
+        if(typeof image != 'string'){
+          try {
+            const pathImagesRef = ref(storage, `images/${image.name}`);          
+           await uploadBytes(pathImagesRef, image).then(async(snapshot) => {
+              console.log('Uploaded a blob or file!',snapshot);
+            await  getDownloadURL(ref(storage, pathImagesRef))
+          .then(async(url) => {
+            console.log(url,'wewhjhbdsbvhsbh')
+             file = url;
+          })
+            }).catch(err=>{
+              console.log(err)
+              toast('Error while download image..!')
+              setIsLoading(false)
+              return;
+            });
+        } catch (error) {
+          console.log(error)
+          toast(error.message)
+          setIsLoading(false)
+          return;
+        }
+        }
     }
+    try {
+      if(data){
+        console.log(data._id,'www')
+        const res = await EditClient({...data, image: file})
+        console.log(res.data.client, 'ddddddddd')
+        setClients((prev) => ({
+          ...prev,
+          clients: prev.clients.map(client => 
+            client._id === data._id ? res.data : client
+          )
+        }));
+        setOpen(false);
+        toast('Client data updated successfully');
+      }else{
+        const res = await NewClient({...data, image: file});
+        setClients((prev) => ({...prev, clients: [...prev.clients,res.data.client]}));
+        setOpen(false);
+        toast('Client data added successfully');
+      }
+    } catch (error) {
+      console.log(error,'dddd')
+      toast('Error adding customer: ' + error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }
    
   return (
     <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40'>
@@ -61,7 +119,7 @@ const AddCustomer = ({setOpen}) => {
           <div className='flex justify-center '>
 
           <div className="flex w-fit justify-center mb-6 relative">
-          <img className="w-48 h-48 object-cover rounded-full" src={image ? window.URL.createObjectURL(image) :'https://placehold.co/150'} alt="Profile picture" />
+          <img className="w-48 h-48 object-cover rounded-full" src={image ? typeof image == 'string' ? image : window.URL.createObjectURL(image) :'https://placehold.co/150'} alt="Profile picture" />
 
             <div onClick={handleImageSelect} className='p-1 rounded-sm bg-white bg-opacity-50 absolute bottom-4 right-4'>
 
@@ -91,11 +149,11 @@ const AddCustomer = ({setOpen}) => {
             <div>
               <label className="block text-sm font-medium text-zinc-400">Email</label>
               <input 
-type="text" 
-value={data.name} 
-onChange={(e) => setData({...data, email: e.target.value})}
-className="mt-1 block w-full border border-zinc-900 bg-zinc-700 rounded-md shadow-sm p-2" 
-/>
+              type="email" 
+              value={data.email} 
+              onChange={(e) => setData({...data, email: e.target.value})}
+              className="mt-1 block w-full border border-zinc-900 bg-zinc-700 rounded-md shadow-sm p-2" 
+              />
             </div>
             <div>
               <label className="block text-sm font-medium text-zinc-400">Location</label>
