@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AdminPrivateRoute from "./Components/AdminPrivateRoute";
 import AdminLayout from './Components/Layout/AdminLayout';
 import CustomerDetail from "./Pages/Customers/CustomerDetails";
 import Customers from './Pages/Customers/Customers';
@@ -21,7 +22,7 @@ function App() {
       
         <ToastContainer position="top-center" />
         <Routes>
-          {/* <Route element={<AdminPrivateRoute />}> */}
+          <Route element={<AdminPrivateRoute />}>
             <Route path="/" element={<Navigate replace to="/dashboard" />} />
             <Route element={<AdminLayout />} path={""}>
               <Route path="/dashboard" element={<Dashboard />} />
@@ -35,7 +36,7 @@ function App() {
               <Route path="/customers/:id" element={<CustomerDetail />} />
 
             </Route>
-          {/* </Route> */}
+          </Route>
          
           {/* <Route path="" element={<CheckLoggedIn />}>
             <Route element={<Loading />} path={"/loading"} />
