@@ -10,11 +10,17 @@ export const NewClient = async (data) => {
   export const getClientData = async (search,page) => {
     return await BulkInstance.get(`clients/all?search=${search}&&page=${page}`);
   };
+  export const getClientDetails = async (id) => {
+    return await BulkInstance.get(`clients/get/${id}`);
+  };
   export const EditClient = async (data) => {
     return await BulkInstance.put(`clients/update/${data._id}`,data);
   };
   export const EditVehicle = async (data) => {
     return await BulkInstance.put(`vehicles/update/${data._id}`,data);
+  };
+  export const getVehicleDetails = async (id) => {
+    return await BulkInstance.get(`vehicles/get/${id}`);
   };
   export const NewVehicle = async (data) => {
     return await BulkInstance.post("vehicles/add",data);
@@ -45,5 +51,8 @@ export const NewClient = async (data) => {
   };
   export const DeleteService = async (id) => {
     return await BulkInstance.delete(`service/delete/${id}`);
+  };
+  export const getDashboard = async () => {
+    return await BulkInstance.get('vehicles/getDashboard');
   };
  

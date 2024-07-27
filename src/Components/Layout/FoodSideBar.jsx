@@ -218,7 +218,7 @@ function FoodSideBar() {
               <span className="ms-3 ">Vehicles</span>
             </a>
           </li>
-          <li>
+          {/* <li>
             <a
               onClick={() => {
                 navigate("/orders");
@@ -247,7 +247,7 @@ function FoodSideBar() {
 
               <span className="ms-3 ">Order History</span>
             </a>
-          </li>
+          </li> */}
           <li>
             <a
               onClick={() => {
@@ -322,7 +322,7 @@ function FoodSideBar() {
             </a>
           </li>
       
-          <li>
+          {/* <li>
             <a
               // onClick={() => {
               //   navigate("vendor/reports");
@@ -365,7 +365,7 @@ function FoodSideBar() {
 
               <span className="ms-3 ">Reports</span>
             </a>
-          </li>
+          </li> */}
 
           <li
             className=" flex hover:cursor-pointer"

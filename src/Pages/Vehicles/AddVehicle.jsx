@@ -127,25 +127,7 @@ const AddVehicle = ({vehicleData ,setOpen,setVehicles,id,clientName}) => {
               <input type="text" className="mt-1 block w-full border border-zinc-900 bg-zinc-700 rounded-md shadow-sm p-2" value={data.model} onChange={(e) => setData({...data, model: e.target.value})} />
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div>
-              <label className="block text-sm font-medium text-zinc-400">Vehicle Type</label>
-              <input 
-              type="text" 
-              value={data.type} 
-              onChange={(e) => setData({...data, type: e.target.value})}
-              className="mt-1 block w-full border border-zinc-900 bg-zinc-700 rounded-md shadow-sm p-2" 
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-zinc-400">Date Of Manufacture</label>
-              <input type="date" className="mt-1 block w-full border border-zinc-900 bg-zinc-700 rounded-md shadow-sm p-2" value={data.dateOfManufacture ? new Date(data.dateOfManufacture).toISOString().split('T')[0] : ''} onChange={(e) => setData({...data, dateOfManufacture: e.target.value})} />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-zinc-400">Registration Number</label>
-              <input type="text" className="mt-1 block w-full border border-zinc-900 bg-zinc-700 rounded-md shadow-sm p-2" value={data.registrationNumber ? data.registrationNumber : ''} onChange={(e) => setData({...data, registrationNumber: e.target.value})} />
-            </div>
-          </div>
+         
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div>
               <label className="block text-sm font-medium text-zinc-400">Color</label>
@@ -172,6 +154,25 @@ const AddVehicle = ({vehicleData ,setOpen,setVehicles,id,clientName}) => {
 
             </div>
             </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div>
+              <label className="block text-sm font-medium text-zinc-400">Vehicle Type</label>
+              <input 
+              type="text" 
+              value={data.type} 
+              onChange={(e) => setData({...data, type: e.target.value})}
+              className="mt-1 block w-full border border-zinc-900 bg-zinc-700 rounded-md shadow-sm p-2" 
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-zinc-400">Date Of Manufacture</label>
+              <input type="date" className="mt-1 block w-full border border-zinc-900 bg-zinc-700 rounded-md shadow-sm p-2" value={data.dateOfManufacture ? new Date(data.dateOfManufacture).toISOString().split('T')[0] : ''} onChange={(e) => setData({...data, dateOfManufacture: e.target.value})} />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-zinc-400">Registration Number</label>
+              <input type="text" className="mt-1 block w-full border border-zinc-900 bg-zinc-700 rounded-md shadow-sm p-2" value={data.registrationNumber ? data.registrationNumber : ''} onChange={(e) => setData({...data, registrationNumber: e.target.value})} />
+            </div>
+          </div>
 
           <div className="flex justify-center mt-5">
             <button onClick={handleSubmit} className="px-6 py-2 bg-yellow-400 text-white rounded-md">Submit</button>

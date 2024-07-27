@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminLayout from './Components/Layout/AdminLayout';
+import CustomerDetail from "./Pages/Customers/CustomerDetails";
 import Customers from './Pages/Customers/Customers';
 import { Dashboard } from './Pages/Dashboard';
 import Login from './Pages/Login';
@@ -31,6 +32,8 @@ function App() {
               <Route path="/customers" element={<Customers />} />
               <Route path="/vehicles/:id" element={<VehicleDetails />} />
               <Route path="/spares" element={<SpareParts />} />
+              <Route path="/customers/:id" element={<CustomerDetail />} />
+
             </Route>
           {/* </Route> */}
          

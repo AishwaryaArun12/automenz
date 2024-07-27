@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { getClientData } from '../../api/api'
 import { Paginations } from '../../Components/Pagination/Paginations'
@@ -18,6 +19,7 @@ const Customers = () => {
   const [ addVehicle,setAddVehicle] = useState(false);
   const [id,setId] = useState('');
   const [clientName, setClientName] = useState('')
+  const navigate = useNavigate();
 
 
   useEffect(()=>{
@@ -125,12 +127,9 @@ const Customers = () => {
           </button></td>
               <td class="px-4 py-2 text-green-500"><div
          
-         //  onClick={() => {
-         //    console.log(currency)
-         //    navigate("/food/vendor/FoodOverview", {
-         //      state: { productDetails: product,currency:currency},
-         //    });
-         //  }}
+          onClick={() => {
+            navigate(`/customers/${data._id}`);
+          }}
           className="bg-yellow-400 rounded-full w-9 h-9 p-2 px-4  cursor-pointer"
         >
           {" "}

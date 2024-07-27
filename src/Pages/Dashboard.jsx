@@ -1,9 +1,28 @@
-import React from 'react'
-import { Pagination } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
-import { Card } from '../Components/Card'
-import theme from '../Components/Theme'
+import { Pagination } from "@mui/material";
+import React, { useEffect, useState } from 'react';
+import { getDashboard } from "../api/api";
+import { Card } from '../Components/Card';
+import theme from '../Components/Theme';
+import { useLoading } from "../store/LoadingContext";
 export const Dashboard = () => {
+  const {setIsLoading} = useLoading();
+  const [card, setCard] = useState()
+  useEffect(()=>{
+    (async function(){
+      try {
+        
+        setIsLoading(true)
+        const res = await getDashboard(); 
+        setCard(res.data)
+        setIsLoading(false)
+      } catch (error) {
+        console.log(error,'yyyyyyyyyy')
+        setIsLoading(false)
+        toast(error.message)
+      }
+    })()
+  },[])
   const tableData = [{}]
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
@@ -11,9 +30,10 @@ export const Dashboard = () => {
   return (
     <div>
       <div className='grid grid-cols-4 gap-4'>
-      <Card  text={'Totoal Customers'}/>
-      <Card  text={'Totoal Products'}/>
-      <Card  text={'Totoal Services'}/>
+      <Card  text={'Totoal Customers'} num={card?.clients}/>
+      <Card  text={'Totoal Vehicles'} num={card?.clients}/>
+      <Card  text={'Totoal Services'} num={card?.services}/>
+      <Card  text={'Totoal Spareparts'} num={card?.spares}/>
       </div>
       <h1 className='text-white/65 text-3xl'>Upcoming Services</h1>
       {/* table start */}

@@ -1,4 +1,5 @@
 import { default as React, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import { DeleteVehicle, getVehicleData } from '../../api/api';
 import DeleteModal from '../../Components/DeleteModal';
@@ -17,7 +18,7 @@ const Vehicles = () => {
   const [data, setData] = useState();
   const [deleteModal, setDeleteModal] = useState(false)
   const [id,setId] = useState();
-
+  const navigate = useNavigate();
   async function deletefn(){
     try {
         setIsLoading(true);
@@ -119,7 +120,7 @@ const Vehicles = () => {
             <td class="px-4 py-2">{data?.client.contactNumber}</td>
            
             <td className=' flex justify-center items-center'>
-            <button className="p-2 bg-[#1F222A] rounded-l-md border border-gray-400" onClick={()=>{setData(data); setOpen(true)}}>
+            <button className="p-2 bg-[#1F222A] rounded-l-md border border-gray-800" onClick={()=>{setData(data); setOpen(true)}}>
             <svg width="15" height="14" viewBox="0 0 15 14" fill="#e2e8fa" xmlns="http://www.w3.org/2000/svg">
             <g opacity="0.6">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M8.06535 8.15755L6.05469 8.44518L6.34177 6.43397L11.5125 1.26322C11.9885 0.787261 12.7602 0.787261 13.2361 1.26322C13.7121 1.73917 13.7121 2.51084 13.2361 2.9868L8.06535 8.15755Z" stroke="#6F757E" stroke-width="0.918314" stroke-linecap="round" stroke-linejoin="round"/>
@@ -133,7 +134,7 @@ const Vehicles = () => {
             onClick={() => navigate(`/vehicles/${data._id}`,{
                 state: { vehicle : data},
               })}
-            className=" border border-y-gray-400 border-l-0 bg-[#1F222A] w-10 h-8 p-1 flex items-center justify-center cursor-pointer"
+            className=" border border-y-gray-800 bg-[#1F222A] w-10 h-8 p-1 flex items-center justify-center cursor-pointer"
             >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -145,7 +146,7 @@ const Vehicles = () => {
                 setId(data._id)
               }}
       
-            className="p-2 bg-[#1F222A] rounded-r-md border border-gray-400 border-l-0"
+            className="p-2 bg-[#1F222A] rounded-r-md border border-gray-800 "
         >
         <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M10.9094 13.0156H4.08438C3.5459 13.0156 3.10938 12.5791 3.10938 12.0406V3.26562H11.8844V12.0406C11.8844 12.5791 11.4479 13.0156 10.9094 13.0156Z" stroke="#F85949" stroke-width="0.918314" stroke-linecap="round" stroke-linejoin="round"/>
