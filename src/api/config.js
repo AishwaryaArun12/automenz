@@ -23,5 +23,19 @@ BulkInstance.interceptors.request.use(
     }
   }
 );
+BulkInstance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error('API Error:', error);
+    
+    if (error.response && error.response.status === 401) {
+      console.log('Unauthorized access detected. Redirecting to login...');
+      window.location.replace('https://automenz.onrender.com/login');
+    }
+    
+    return Promise.reject(error);
+  }
+);
+
 
 export default BulkInstance;
