@@ -17,7 +17,7 @@ BulkInstance.interceptors.request.use(
   },
   (error) => {
     Promise.reject(error);
-    console.log(error);
+    console.log(error,'lllllllll');
     if(error.response.status == 401){
       window.location.href = 'https://automenz.onrender.com/login'
     }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import { login } from '../api/api';
 import { useLoading } from '../store/LoadingContext';
 
@@ -42,17 +42,18 @@ const Login = () => {
       // Simulating an API call
       const res = await login({email,password})
       localStorage.setItem("token", res?.data?.token);
-      toast.success('Login successful!');
+      toast('Login successful!');
       navigate('/dashboard')
     } catch (error) {
       console.error('Login failed:', error);
-      toast.error('Login failed. Please try again.');
+      toast('Login failed. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
   return (
     <div className="min-h-screen flex">
+      <ToastContainer position='bottom-left'/>
       <div className="w-full md:w-1/2 bg-black text-white flex flex-col justify-center items-center p-8">
         <h1 className="text-4xl font-bold mb-2">Welcome Back</h1>
         <div className="w-16 h-1 bg-yellow-500 mb-4"></div>

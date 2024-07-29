@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
 import { getSpareData, getVehicleData } from '../../api/api';
 import { useLoading } from '../../store/LoadingContext';
 
@@ -68,9 +69,23 @@ const {setIsLoading} = useLoading();
 
   const handleSpareChange = (type, index, field, value) => {
     const updatedSpares = [...formData[type]];
-    updatedSpares[index] = { ...updatedSpares[index], [field]: value };
+    
+    if (field === 'spare') {
+      const existingIndex = updatedSpares.findIndex(item => item.spare === value);
+      if (existingIndex !== -1 && existingIndex !== index) {
+        toast.warn("This spare part is already in the list. Updating the existing entry.");
+        updatedSpares[existingIndex].quantity += updatedSpares[index].quantity;
+        updatedSpares.splice(index, 1);
+      } else {
+        updatedSpares[index] = { ...updatedSpares[index], [field]: value };
+      }
+    } else {
+      updatedSpares[index] = { ...updatedSpares[index], [field]: value };
+    }
+    
     setFormData({ ...formData, [type]: updatedSpares });
   };
+  
 
   const addSpare = (type) => {
     setFormData({
@@ -134,7 +149,7 @@ const {setIsLoading} = useLoading();
     <div className="fixed inset-0 z-40 bg-gray-900 bg-opacity-75 overflow-y-auto h-full w-full">
       <div className="relative top-3 mx-auto p-5 w-1/2 shadow-lg rounded-md overflow-y-auto bg-gray-800">
       <div className='flex justify-between items-center'>
-
+     <ToastContainer/>
       <h2 className="text-2xl font-semibold mb-4 text-white">Create New Service</h2>
       <div className='rounded-full border border-red-600 px-2 cursor-pointer'>
 
