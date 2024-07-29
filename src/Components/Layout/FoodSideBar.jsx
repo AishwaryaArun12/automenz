@@ -118,7 +118,7 @@ function FoodSideBar() {
                 height="24"
                 viewBox="0 0 24 24"
                 fill={`${
-                  window.location.pathname === "/food/vendor/dashboard"
+                  window.location.pathname === "/dashboard"
                     ? "#FFDD11"
                     : "white"
                 }`}

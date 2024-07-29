@@ -1,6 +1,7 @@
 import { ThemeProvider } from "@emotion/react";
 import { Pagination } from "@mui/material";
 import React, { useEffect, useState } from 'react';
+import { toast } from "react-toastify";
 import { getDashboard } from "../api/api";
 import { Card } from '../Components/Card';
 import theme from '../Components/Theme';
@@ -29,7 +30,7 @@ export const Dashboard = () => {
   };
   return (
     <div>
-      <div className='grid grid-cols-4 gap-4'>
+      <div className='grid grid-cols-1 lg:grid-cols-4 gap-4'>
       <Card  text={'Totoal Customers'} num={card?.clients}/>
       <Card  text={'Totoal Vehicles'} num={card?.clients}/>
       <Card  text={'Totoal Services'} num={card?.services}/>
