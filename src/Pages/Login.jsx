@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
-import { login } from '../api/api';
+import { login, updateToken } from '../api/api';
+import { getFcmToken } from '../store/Firebase';
 import { useLoading } from '../store/LoadingContext';
 
 const Login = () => {
@@ -42,6 +43,8 @@ const Login = () => {
       // Simulating an API call
       const res = await login({email,password})
       localStorage.setItem("token", res?.data?.token);
+      const fcmToken = await getFcmToken();
+      await updateToken(fcmToken);
       toast('Login successful!');
       navigate('/dashboard')
     } catch (error) {

@@ -2,11 +2,13 @@ import React from "react";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { useNavigate } from "react-router-dom";
+import { useNav } from "../../store/NavContext";
 
 function FoodSideBar() {
   const navigate = useNavigate();
- const openSidebar = true
-  const { toggleSidebar } = true;
+
+  const {setIsNav,isNav} = useNav()
+
   const logout = () => {
     confirmAlert({
       customUI: ({ onClose }) => {
@@ -67,7 +69,7 @@ function FoodSideBar() {
     <aside
       id="logo-sidebar"
       className={`fixed top-0 left-0 z-30 w-64 h-screen pt-2 transition-transform  
-      ${toggleSidebar ? "translate-x-0" : "-translate-x-full"} 
+      ${isNav ? "translate-x-0" : "-translate-x-full"} 
         border-r sm:translate-x-0 bg-black  border-gray-700`}
       aria-label="Sidebar"
     >
@@ -75,12 +77,12 @@ function FoodSideBar() {
         class="h-full relative  pb-4 overflow-y-auto  bg-black"
         style={{ scrollbarWidth: "none" }}
       >
-        {/* <button
-        //   onClick={() => dispatch(openSidebar())}
+        <button
+          onClick={() => setIsNav(false)}
           className="absolute sm:hidden block right-6 text-white text-2xl mt-3"
         >
           X{" "}
-        </button> */}
+        </button>
         <div className=" flex items-center mb-10 mt-10 ">
           <div>
             <img src="/logo.jpeg" className="w-14 h-14 mx-3" alt="" />
@@ -97,7 +99,7 @@ function FoodSideBar() {
               onClick={() => {
                 navigate("/dashboard");
                
-                // dispatch(openSidebar());
+                setIsNav(false);
               }}
               href="#"
               className={`flex pl-7 items-center p-3  group w-full ${
@@ -149,7 +151,7 @@ function FoodSideBar() {
             <a
               onClick={() => {
                 navigate("/service");
-                // dispatch(openSidebar());
+                setIsNav(false)
                 
               }}
               href="#"
@@ -189,7 +191,7 @@ function FoodSideBar() {
             <a
               onClick={() => {
                 navigate("/vehicles");
-                // dispatch(openSidebar());
+                setIsNav(false)
                 
               }}
               href="#"
@@ -253,7 +255,7 @@ function FoodSideBar() {
               onClick={() => {
                 navigate("/customers");
                
-                // dispatch(openSidebar());
+               setIsNav(false)
               }}
               href="#"
               className={`flex pl-7 items-center p-3  group w-full ${
