@@ -13,14 +13,20 @@ const NotificationBar = ({
   const [paginatecount, setPaginatecount] = useState(1);
   const [navbardata, setNavbardata] = useState([]);
   const [notficationlength, setntfLengt] = useState(0);
+  const [loading,setLoading] = useState(true);
 
-  const getAllNotification = () => {
-    getNotification()
+  const getAllNotification = (page) => {
+    setLoading(true);
+    getNotification(page)
       .then(({ data }) => {
-        setNavbardata(data?.notifications);
-        setntfLengt(data?.notifications?.length);
+        
+        setNavbardata((prev)=> [...prev,...data?.notifications]);
+        setntfLengt(data?.totalCount);
+        setPaginatecount(page)
+        setLoading(false);
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
       });
   };
@@ -29,12 +35,16 @@ const NotificationBar = ({
     getAllNotification();
   }, []);
 
-  const handleScrollToBottom = () => {};
+  const handleScrollToBottom = () => {
+    console.log('reached bottok')
+    getAllNotification(paginatecount + 1);
+  };
 
   const handleScroll = (e) => {
-    const bottom =
-      e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
-    if (bottom) handleScrollToBottom();
+    const { scrollTop, scrollHeight, clientHeight } = e.target;
+    if (scrollHeight - scrollTop <= clientHeight + 5) {
+      handleScrollToBottom();
+    }
   };
 
   useEffect(() => {
@@ -51,47 +61,52 @@ const NotificationBar = ({
   }, []);
 
   return (
-    <div className="fixed z-50 top-16 right-6 w-80 bg-white shadow-lg rounded-lg overflow-hidden">
-      <div className="p-4 font-bold text-xl border-b">Notifications</div>
-      <ul
+    <div className="fixed z-50 top-16 right-6 w-80 bg-[#0A0A0B] text-white shadow-lg rounded-lg overflow-hidden">
+    <div className="p-4 font-bold text-xl border-b border-gray-700">Notifications</div>
+       <ul
         ref={notificationListRef}
         className="list-none overflow-y-scroll max-h-96 scrollbar-hide"
       >
         {navbardata.map((notification, index) => (
-          <li
-            onClick={() => {
-              readNotification(notification._id)
-                .then((data) => {
-                  getNotificationData();
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
-            }}
-            key={index}
-            className={`border-b last:border-b-0 p-2 ${
-              !notification?.isRead ? "bg-blue-50" : ""
-            }`}
-          >
-            <a className="flex items-center p-4 hover:bg-gray-100 relative">
-              {!notification?.isRead && (
-                <span className="absolute right-0 top-1/2 transform -translate-y-1/2 h-2 w-2 bg-blue-500 rounded-full"></span>
-              )}
-              <div>
-                <div className="font-medium">{notification?.title}</div>
-                <div className="text-sm text-gray-600">
-                  {notification?.message}
-                </div>
-              </div>
-            </a>
-          </li>
+         <li
+         onClick={() => {
+           readNotification(notification._id)
+             .then((data) => {
+               getNotificationData();
+             })
+             .catch((err) => {
+               console.log(err);
+             });
+         }}
+         key={index}
+         className={`border-b border-gray-700 last:border-b-0 p-2 ${
+           !notification?.isRead ? "bg-gray-800" : ""
+         }`}
+       >
+         <a className="flex items-center p-4 hover:bg-gray-700 relative">
+           {!notification?.isRead && (
+             <span className="absolute right-0 top-1/2 transform -translate-y-1/2 h-2 w-2 bg-yellow-400 rounded-full"></span>
+           )}
+           <div>
+             <div className="font-medium">{notification?.title}</div>
+             <div className="text-sm text-gray-400">
+               {notification?.message}
+             </div>
+           </div>
+         </a>
+       </li>
+       
         ))}
+        {loading && <li>
+            <img className="mx-auto" src="/loading.gif" width={40} height={40}/>
+            </li>}
       </ul>
-      {notficationlength === 0 && (
-        <div className="text-red-900 p-4 text-center">
-          There are no pending notifications.
-        </div>
-      )}
+      {notficationlength === 0 && !loading && (
+  <div className="text-gray-400 p-4 text-center">
+    There are no pending notifications.
+    
+  </div>
+)}
     </div>
   );
 };

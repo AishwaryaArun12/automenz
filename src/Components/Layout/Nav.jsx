@@ -2,7 +2,7 @@ import { BellIcon } from "@heroicons/react/24/outline";
 import { useAnimationControls } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import wavFile from '../../../public/MsgTone.mp3';
 import { getNotcount } from "../../api/api";

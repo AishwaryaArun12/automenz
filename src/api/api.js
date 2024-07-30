@@ -8,7 +8,7 @@ export const NewClient = async (data) => {
     return await BulkInstance.post("login",data);
   };
   export const updateToken = async (token) => {
-    return await BulkInstance.put("update/token",{token});
+    return await BulkInstance.put("update/token",{fcmToken :token});
   };
   export const getClientData = async (search,page) => {
     return await BulkInstance.get(`clients/all?search=${search}&&page=${page}`);
@@ -58,8 +58,8 @@ export const NewClient = async (data) => {
   export const getDashboard = async () => {
     return await BulkInstance.get('vehicles/getDashboard');
   };
-  export const getNotification = async () => {
-    return await BulkInstance.get("notification/all");
+  export const getNotification = async (page = 1) => {
+    return await BulkInstance.get(`notification/all?page=${page}`);
   };
   
   export const readNotification = async (id) => {
