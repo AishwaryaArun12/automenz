@@ -17,8 +17,8 @@ const NotificationBar = ({
   const getAllNotification = () => {
     getNotification()
       .then(({ data }) => {
-        setNavbardata(data?.notification);
-        setntfLengt(data?.notification?.length);
+        setNavbardata(data?.notifications);
+        setntfLengt(data?.notifications?.length);
       })
       .catch((err) => {
         console.log(err);

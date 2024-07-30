@@ -43,8 +43,17 @@ const Login = () => {
       // Simulating an API call
       const res = await login({email,password})
       localStorage.setItem("token", res?.data?.token);
-      const fcmToken = await getFcmToken();
-      await updateToken(fcmToken);
+     
+
+      const getToken = await getFcmToken();
+      if (getToken) {
+        // Proceed with form submission or other logic
+        console.log('Token received:', getToken);
+        await updateToken(getToken);
+      } else {
+        console.log('No token received. Cannot proceed.');
+      }
+      
       toast('Login successful!');
       navigate('/dashboard')
     } catch (error) {

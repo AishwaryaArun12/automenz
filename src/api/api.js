@@ -65,3 +65,6 @@ export const NewClient = async (data) => {
   export const readNotification = async (id) => {
     return await BulkInstance.put(`notification/read/${id}`);
   };
+  export const getNotcount = async () => {
+    return await BulkInstance.get("notification/count");
+  };

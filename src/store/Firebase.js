@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth';
-import { getMessaging, getToken } from "firebase/messaging";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { getStorage } from "firebase/storage";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -25,20 +25,6 @@ const auth = getAuth(app); // Initialize the authentication service
 
 const storage = getStorage(app);
 
-const requestNotificationPermission = async () => {
-  try {
-    const permission = await Notification.requestPermission();
-    if (permission === 'granted') {
-      const token = await getToken(messaging, { vapidKey: 'YOUR_VAPID_KEY' });
-      console.log('FCM Token:', token);
-      // Send this token to your server to associate it with the user
-      return token;
-    }
-  } catch (error) {
-    console.error('Error getting notification permission:', error);
-  }
-};
-
 // Function to handle incoming messages
 const onMessageListener = () =>
   new Promise((resolve) => {
@@ -47,21 +33,52 @@ const onMessageListener = () =>
     });
   });
 
-  const getFcmToken = async () => {
-    try {
-      const currentToken = await getToken(messaging, { vapidKey: import.meta.env.VAPID });
-      if (currentToken) {
-        console.log('FCM token:', currentToken);
-        return currentToken;
-      } else {
-        console.log('No registration token available. Request permission to generate one.');
-        return null;
+  const registerServiceWorker = async () => {
+    if ('serviceWorker' in navigator) {
+      try {
+        const registration = await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+        console.log('Service Worker registered successfully', registration);
+      } catch (error) {
+        console.error('Service Worker registration failed:', error);
       }
-    } catch (err) {
-      console.log('An error occurred while retrieving token. ', err);
-      return null;
     }
   };
 
-export { auth, getFcmToken, messaging, onMessageListener, requestNotificationPermission, storage };
+  
+  const getFcmToken = async () => {
+    try {
+      await registerServiceWorker();
+      const messaging = getMessaging();
+      const currentPermission = Notification.permission;
+  
+      if (currentPermission === 'denied') {
+        // Provide instructions to enable notifications
+        alert("Please enable notifications in your browser settings to receive updates.");
+        return;
+      }
+  
+      // Request permission if not already granted
+      if (currentPermission === 'default') {
+        const permissionResult = await Notification.requestPermission();
+        if (permissionResult !== 'granted') {
+          alert("Notification permission was not granted.");
+          return;
+        }
+      }
+      console.log(import.meta.env.VITE_VAPID,'ggggggggggggg')
+      // Get the token
+      const token = await getToken(messaging, { vapidKey: import.meta.env.VITE_VAPID });
+      console.log('FCM Token:', token);
+      return token;
+    } catch (error) {
+      if (error.code === 'messaging/permission-blocked') {
+        alert("Notification permission is blocked. Please enable it in your browser settings.");
+      } else {
+        console.error('An error occurred while retrieving token.', error);
+      }
+    }
+  
+  };
+
+export { auth, getFcmToken, messaging, onMessageListener, storage };
 

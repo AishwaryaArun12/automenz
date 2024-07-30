@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import wavFile from '../../../public/MsgTone.mp3';
+import { getNotcount } from "../../api/api";
 import { onMessageListener } from "../../store/Firebase";
 import { useNav } from "../../store/NavContext";
 import "./navbar.css";
@@ -72,7 +73,28 @@ function NavBar() {
           .catch((err) => console.log("failed: ", err));
   }, [notificationnew]);
 
-
+  
+  const getNotificationData = () => {
+    getNotcount()
+      .then(({ data }) => {
+        console.log(data?.notificationCount, "notification");
+        setGetNotData(data?.notificationCount);
+      })
+      .catch((err) => {
+        if (err?.message === "Network Error") {
+          alert("check your connection");
+        } else {
+          alert("hi");
+          alert("something wrong try again");
+        }
+      });
+  };
+  useEffect(() => {
+    if (admin === "Admin") {
+      getNotificationData();
+      return;
+    }
+  }, []);
     return (
         <>
             <nav className="top-0 z-30 relative w-full  pt-3 pb-1" style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}>
