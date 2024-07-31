@@ -141,7 +141,7 @@ const AddSpareParts = ({spareData ,setOpen,setSpares}) => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-zinc-400">Validity in Years</label>
+              <label className="block text-sm font-medium text-zinc-400">Validity in Months</label>
               <input 
               type="number" 
               value={data.validity} 

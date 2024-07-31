@@ -10,6 +10,7 @@ import Login from './Pages/Login';
 import NotFound from './Pages/NotFound';
 import { Orders } from './Pages/Orders';
 import AddServices from './Pages/Service/AddServices';
+import ServiceDetails from "./Pages/Service/ServiceDetails";
 import Services from './Pages/Service/Services';
 import SpareParts from "./Pages/SpareParts/SpareParts";
 import VehicleDetails from "./Pages/Vehicles/VehicleDetails";
@@ -34,6 +35,7 @@ function App() {
               <Route path="/vehicles/:id" element={<VehicleDetails />} />
               <Route path="/spares" element={<SpareParts />} />
               <Route path="/customers/:id" element={<CustomerDetail />} />
+              <Route path="/serviceDetails/:id" element={<ServiceDetails />} />
 
             </Route>
           </Route>

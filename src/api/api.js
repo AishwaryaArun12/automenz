@@ -68,3 +68,6 @@ export const NewClient = async (data) => {
   export const getNotcount = async () => {
     return await BulkInstance.get("notification/count");
   };
+  export const getServiceDetails = async (id) => {
+    return await BulkInstance.get(`service/get/${id}`);
+  };

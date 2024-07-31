@@ -93,6 +93,12 @@ const {setIsLoading} = useLoading();
       [type]: [...formData[type], { spare: '', quantity: 1 }]
     });
   };
+  const recSpare = (type) => {
+    setFormData({
+      ...formData,
+      [type]: [...formData[type], { spare: '', validity: 1 }]
+    });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -119,12 +125,20 @@ const {setIsLoading} = useLoading();
     const allSpares = [
       ...formData.replacedSpares,
       ...formData.renewalSpares,
+      
+    ];
+    const spares = [
       ...formData.mandatorySpares,
       ...formData.recommendedSpares
-    ];
+    ]
     
     if (allSpares.some(spare => !spare.spare || spare.quantity <= 0)) {
-      toast.error("All spares must have a selection and a valid quantity");
+      toast.error("Replaced and Recommanded spares must have a selection and a valid quantity");
+      setIsLoading(false)
+      return;
+    }
+    if (spares.some(spare => !spare.spare || spare.validity <= 0)) {
+      toast.error("Recommanded and Mandatory spares must have a selection and a valid validity");
       setIsLoading(false)
       return;
     }
@@ -211,7 +225,7 @@ const {setIsLoading} = useLoading();
             />
           </div>
       </div>
-          {['replacedSpares', 'renewalSpares', 'mandatorySpares', 'recommendedSpares'].map((spareType) => (
+          {['replacedSpares', 'renewalSpares'].map((spareType) => (
             <div key={spareType} className="mb-4">
               <div className='grid grid-cols-4 gap-4'>
               <label className="block text-gray-400 text-sm font-bold mb-2">
@@ -242,6 +256,44 @@ const {setIsLoading} = useLoading();
                     value={spare.quantity}
                     onChange={(e) => handleSpareChange(spareType, index, 'quantity', e.target.value)}
                     placeholder="Quantity"
+                    className="shadow appearance-none border border-black focus:border-yellow-500 rounded w-1/3 py-2 px-3 text-gray-200 bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  />
+                </div>
+              ))}
+              
+            </div>
+          ))}
+          {[ 'mandatorySpares', 'recommendedSpares'].map((spareType) => (
+            <div key={spareType} className="mb-4">
+              <div className='grid grid-cols-4 gap-4'>
+              <label className="block text-gray-400 text-sm font-bold mb-2">
+                {spareType.charAt(0).toUpperCase() + spareType.slice(1)}
+              </label>
+              <button
+                type="button"
+                onClick={() => recSpare(spareType)}
+                className="text-yellow-600 mb-3 mx-auto hover:text-black hover:bg-yellow-600 bg-gray-900 font-bold py-1 px-2 rounded text-sm"
+              >
+                + Add
+              </button>
+              </div>
+              {formData[spareType].map((spare, index) => (
+                <div key={index} className="flex mb-8 space-x-6">
+                  <select
+                    value={spare.spare}
+                    onChange={(e) => handleSpareChange(spareType, index, 'spare', e.target.value)}
+                    className="shadow appearance-none border border-black focus:border-yellow-500 rounded w-2/3 py-2 px-3 text-gray-200 bg-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2"
+                  >
+                    <option value="">Select a spare</option>
+                    {spares.map((s) => (
+                      <option key={s._id} value={s._id}>{s.name}</option>
+                    ))}
+                  </select>
+                  <input
+                    type="number"
+                    value={spare.validity}
+                    onChange={(e) => handleSpareChange(spareType, index, 'validity', e.target.value)}
+                    placeholder="Validity"
                     className="shadow appearance-none border border-black focus:border-yellow-500 rounded w-1/3 py-2 px-3 text-gray-200 bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   />
                 </div>

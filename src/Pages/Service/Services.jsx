@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { DeleteService, getServiceData, NewService } from '../../api/api'
 import DeleteModal from '../../Components/DeleteModal'
@@ -9,6 +10,7 @@ import AddServices from './AddServices'
 
 
 const Services = () => {
+  const navigate = useNavigate();
   const {setIsLoading} = useLoading()
   const [open, setOpen] = useState(false)
   const [tableData, setTableData] = useState({})
@@ -129,11 +131,9 @@ const Services = () => {
       <th className="px-5 py-6 text-sm font-semibold capitalize tracking-wider">
         Spares
       </th>
+      
       <th className="px-5 py-6 text-sm font-semibold capitalize tracking-wider">
-        Next Service
-      </th>
-      <th className="px-5 py-6 text-sm font-semibold capitalize tracking-wider">
-        Edit
+        Actions
       </th>
     </tr>
   </thead>
@@ -153,7 +153,7 @@ const Services = () => {
           {new Date(service.serviceDate).toLocaleDateString()}
         </td>
         <td className="px-5 py-3 text-sm">
-          <ul>
+          <ul >
             <p className='py-2 text-yellow-600'>Replaced Spares</p>
             {service.replacedSpares.map((spare, index) => (
               <li key={index} className="mb-2">
@@ -169,28 +169,34 @@ const Services = () => {
             <p className='py-2 text-yellow-600'>Mandatory Spares</p>
             {service.mandatorySpares.map((spare, index) => (
               <li key={index} className="mb-2">
-                {spare.spare.name} - Qty: {spare.quantity}
+                {spare.spare.name} - Validity: {spare.validity} {spare.validity == 1 ? 'Month' : 'Months'}
               </li>
             ))}
             <p className='py-2 text-yellow-600'>Recommanded Spares</p>
             {service.recommendedSpares.map((spare, index) => (
               <li key={index} className="mb-2">
-                {spare.spare.name} - Qty: {spare.quantity}
+                {spare.spare.name} - Validity: {spare.validity} {spare.validity == 1 ? 'Month' : 'Months'}
               </li>
             ))}
           </ul>
         </td>
+       
         <td className="px-5 py-3 text-sm">
-          {service.nextServiceDate ? new Date(service.nextServiceDate).toLocaleDateString() : 'N/A'}
-        </td>
-        <td className="px-5 py-3 text-sm">
+        <div 
+            onClick={() => navigate(`/serviceDetails/${service._id}`)}
+            className=" border border-gray-700 bg-[#1F222A] hover:bg-gray-500 w-10 h-8 p-1 flex items-center justify-center cursor-pointer my-4 rounded-md"
+            >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            </div>
         <button
     
     onClick={() => {
       setDeleteModal(true);
-      setId(data._id)
+      setId(service._id)
     }}
-       className="p-2 bg-[#1F222A] hover:bg-gray-200 rounded-md border border-gray-700"
+       className="p-2 px-3 bg-[#1F222A] hover:bg-gray-500 rounded-md border border-gray-700"
    >
    <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
        <path fill-rule="evenodd" clip-rule="evenodd" d="M10.9094 13.0156H4.08438C3.5459 13.0156 3.10938 12.5791 3.10938 12.0406V3.26562H11.8844V12.0406C11.8844 12.5791 11.4479 13.0156 10.9094 13.0156Z" stroke="#F85949" stroke-width="0.918314" stroke-linecap="round" stroke-linejoin="round"/>
@@ -201,6 +207,7 @@ const Services = () => {
        </svg>
 
    </button>
+   
         </td>
       </tr>) : <div className=" text-white h-40 items-center flex flex-col justify-center text-xl">No data to preview.</div>}
             
