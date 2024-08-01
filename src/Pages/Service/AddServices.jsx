@@ -8,6 +8,8 @@ const CreateServiceModal = ({ open, setOpen, onSubmit }) => {
   const [sparesPage, setSparesPage] = useState(1);
   const [initialDataLoaded, setInitialDataLoaded] = useState(false);
   const [hasMoreSpares, setHasMoreSpares] = useState(true);
+  const [search,setSearch] = useState('')
+  const [page,setPage] = useState(1)
   const [formData, setFormData] = useState({
     vehicleId: '',
     serviceType: '',
@@ -25,23 +27,37 @@ const {setIsLoading} = useLoading();
   useEffect(() => {
     if (open && !initialDataLoaded) {
       setIsLoading(true);
-      fetchSpares();
       fetchVehicles();
       setIsLoading(false)
     }
-  }, [open]);
+  }, [open,vehiclePage]);
+  useEffect(() => {
+    if (open && !initialDataLoaded) {
+      setIsLoading(true);
+      fetchSpares();
+     setIsLoading(false)
+    }
+  }, [open, page]);
   function onClose(){
     setSpares();
     setVehicles();
     setOpen(false)
   }
-  const fetchSpares = async (page = 1) => {
-    if (initialDataLoaded && page === 1) return;
+  useEffect(() => {
+    setPage(1); // Reset to first page when search term changes
+    fetchSpares();
+  }, [search]);
+
+
+  const fetchSpares = async () => {
+
+    if (initialDataLoaded && page === 1 && !search.length) return;
     try {
-      const response = await getSpareData('', page);
+
+      const response = await getSpareData(search, page);
       const newSpares = response.data.spareParts;
       setSpares(page === 1 ? newSpares : prevSpares => [...prevSpares, ...newSpares]);
-      setSparesPage(page);
+     
       setHasMoreSpares(newSpares.length === 7);
       if (page === 1) setInitialDataLoaded(true);
     } catch (error) {
@@ -49,13 +65,13 @@ const {setIsLoading} = useLoading();
     }
   };
 
-  const fetchVehicles = async (page = 1) => {
+  const fetchVehicles = async () => {
     if (initialDataLoaded && page === 1) return;
     try {
-      const response = await getVehicleData('', page);
+      const response = await getVehicleData('', vehiclePage);
       const newVehicles = response.data.vehicles;
       setVehicles(page === 1 ? newVehicles : prevVehicles => [...prevVehicles, ...newVehicles]);
-      setVehiclePage(page);
+      
       setHasMoreVehicles(newVehicles.length === 10);
       if (page === 1) setInitialDataLoaded(true);
     } catch (error) {
@@ -190,7 +206,7 @@ const {setIsLoading} = useLoading();
           {hasMoreVehicles && (
           <button
             type="button"
-            onClick={() => fetchVehicles(vehiclePage + 1)}
+            onClick={() => setVehiclePage(prev=> prev+1)}
             className="bg-gray-600 hover:bg-gray-700 text-yellow-400 font-bold py-2 mx-auto px-2 rounded text-sm mt-2"
           >
             Load More Vehicles
@@ -225,6 +241,26 @@ const {setIsLoading} = useLoading();
             />
           </div>
       </div>
+      <div class="relative my-5">
+                      <input
+                        type="text"
+                        placeholder="Search Spares Here..."
+                        class="bg-[#0A0A0B] text-white p-2 pl-10 rounded-md focus:outline-none"
+                        value={search}
+                        onChange={(e)=>setSearch(e.target.value)}
+                      />
+                      <svg
+                        class="w-5 h-5 text-zinc-500 absolute left-3 top-3"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M12.9 14.32a8 8 0 111.414-1.414l4.387 4.387a1 1 0 01-1.414 1.414l-4.387-4.387zM8 14A6 6 0 108 2a6 6 0 000 12z"
+                          clip-rule="evenodd"
+                        ></path>
+                      </svg>
+                    </div>
           {['replacedSpares', 'renewalSpares'].map((spareType) => (
             <div key={spareType} className="mb-4">
               <div className='grid grid-cols-4 gap-4'>
@@ -285,6 +321,9 @@ const {setIsLoading} = useLoading();
                     className="shadow appearance-none border border-black focus:border-yellow-500 rounded w-2/3 py-2 px-3 text-gray-200 bg-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2"
                   >
                     <option value="">Select a spare</option>
+                  
+                    
+                 
                     {spares.map((s) => (
                       <option key={s._id} value={s._id}>{s.name}</option>
                     ))}
@@ -304,7 +343,7 @@ const {setIsLoading} = useLoading();
           {hasMoreSpares && (
             <button
               type="button"
-              onClick={() => fetchSpares(sparesPage + 1)}
+              onClick={() => setPage((prev)=> prev+1)}
               className="bg-gray-600 hover:bg-gray-700 text-yellow-400 font-bold py-1 px-2 rounded text-sm mt-2"
             >
               Load More Spares

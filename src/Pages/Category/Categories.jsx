@@ -1,13 +1,13 @@
 import { default as React, useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
-import { DeleteSpare, getSpareData } from '../../api/api';
+import { DeleteCategory, getCategoryData } from '../../api/api';
 import DeleteModal from '../../Components/DeleteModal';
 import { Paginations } from '../../Components/Pagination/Paginations';
 import { useLoading } from '../../store/LoadingContext';
 import '../../toast.css';
-import AddSpareParts from './AddSpareParts';
+import AddCategory from './AddCategory';
 
-const SpareParts = () => {
+const Categories = () => {
     const {setIsLoading} = useLoading()
     const [open, setOpen] = useState(false)
     const [tableData, setTableData] = useState({})
@@ -21,16 +21,16 @@ const SpareParts = () => {
     async function deleteSpare(){
         try {
             setIsLoading(true);
-            await DeleteSpare(id);
+            await DeleteCategory(id);
             setIsLoading(false);
             setDeleteModal(false);
             setTableData(prev => ({
                 ...prev,
-                spareParts: prev.spareParts.filter(spare => 
-                  spare._id != id
+                categories: prev.categories.filter(category => 
+                  category._id != id
                 )
               }));
-            toast('Selected Sparepart Deleted successfully.')
+            toast('Selected Category Deleted successfully.')
         } catch (error) {
             setDeleteModal(false);
             setIsLoading(false);
@@ -43,7 +43,7 @@ const SpareParts = () => {
         try {
           
           setIsLoading(true)
-          const res = await getSpareData(search,page);        
+          const res = await getCategoryData(search,page);        
           setTableData(res.data)
           setCount(res.data.totalPages)
           setIsLoading(false)
@@ -61,7 +61,7 @@ const SpareParts = () => {
     <div class="min-h-screen  text-white p-4">
     <ToastContainer/>
 <div class="flex justify-between items-center mb-6">
-  <h1 class="text-2xl">Spare Parts</h1>
+  <h1 class="text-2xl">Category</h1>
   <div class="relative">
     <input
       type="text"
@@ -84,7 +84,7 @@ const SpareParts = () => {
   </div>
   <div>
     <button onClick={()=>{setData();setOpen(true)}} className="text-black  p-2 inline-flex font-semibold items-center h-9 rounded-lg bg-yellow-400">
-    Add New Spare
+    Add Category
     </button>
 </div>
  
@@ -96,35 +96,22 @@ const SpareParts = () => {
       <tr>
          <th class="px-4 py-2"></th>
         <th class="px-4 py-2">Name</th>
-        <th class="px-4 py-2">Quantity</th>
-        
-        <th class="px-4 py-2">Price</th>
-        <th class="px-4 py-2">Validity</th>
-        <th className='px-4 py-2'>Category</th>
+       
         <th className='px-4 py-2'>Actions</th>
-
+       
       </tr>
     </thead>
     <tbody>
-    {tableData?.spareParts?.length ? tableData?.spareParts.map((data,i)=> <tr >
+    {tableData?.categories?.length ? tableData?.categories.map((data,i)=> <tr >
         <td class="px-4 py-2">
           <span class="text-yellow-500">{i+1}</span>
         </td>
-        <td class="px-4 py-2 flex items-center">
-          <img
-            src={data?.image ? data?.image : '/spare.jpeg'}
-            alt="Spare"
-            class="w-10 h-10 rounded-full mr-4"
-          />
+        <td class="px-4 py-2 items-center">
+          
           {data?.name}
         </td>
        
-        <td class="px-4 py-2">
-          <span class="text-yellow-500">{data.qty}</span>
-        </td>
-        <td class="px-4 py-2">{data?.price}</td>
-        <td class="px-4 py-2">{data?.validity == 1 ? '1 Year' : `${data?.validity} Years`}</td>
-        <td class="px-4 py-2">{data?.category.name}</td>
+       
 
         <td className=' flex items-center'>
         <button className="p-2 bg-[#1F222A] rounded-l-md border border-gray-400" onClick={()=>{setData(data); setOpen(true)}}>
@@ -165,14 +152,14 @@ const SpareParts = () => {
   </table>
 </div>
 {count && <div class="flex justify-between items-center mt-4">
-  <span class="text-zinc-400">Showing {tableData.totalSpareParts >= 7 ? count == page ? tableData.totalSpareParts -((page -1) * 7) : 7 : tableData.totalSpareParts} of {tableData.totalSpareParts} {tableData.totalSpareParts ==1 ?'spares' : 'spares'}</span>
+  <span class="text-zinc-400">Showing {tableData.totalCategories >= 10 ? count == page ? tableData.totalCategories -((page -1) * 10) : 10 : tableData.totalCategories} of {tableData.totalCategories} {tableData.totalCategories ==1 ?'category' : 'categories'}</span>
   <div className=" flex justify-center mt-4 mb-5">     
    <Paginations totalPage={count} handlePageChange={handlePageChange}/></div>
 </div>}
-{open &&  <AddSpareParts spareData={data} setSpares={setTableData} setOpen={setOpen}/>}
+{open &&  <AddCategory categoryData={data} setCategories={setTableData} setOpen={setOpen}/>}
 {deleteModal && <DeleteModal setDeleteModal={setDeleteModal} deleteFn={deleteSpare}/>}
 </div>
   )
 }
 
-export default SpareParts
+export default Categories

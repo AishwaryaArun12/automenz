@@ -1,7 +1,7 @@
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { default as React, useState } from 'react';
+import { default as React, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { EditSpare, NewSpare } from "../../api/api";
+import { EditSpare, getCategoryData, NewSpare } from "../../api/api";
 import { storage } from '../../store/Firebase';
 import { useLoading } from "../../store/LoadingContext";
 import '../../toast.css';
@@ -9,13 +9,38 @@ import '../../toast.css';
 const AddSpareParts = ({spareData ,setOpen,setSpares}) => {
     const [image,setImage] = useState(spareData?.image)
     const { setIsLoading } = useLoading();
+    const [categories, setCategories] = useState([]);
+    const [initialDataLoaded, setInitialDataLoaded] = useState(false);
+
     const [data,setData] = useState({
         name: spareData?.name,
         qty : spareData?.qty,
         price: spareData?.price,
         validity: spareData?.validity,  
+        category : spareData?.category || '',
         _id : spareData?._id
     })
+    const fetchCategories = async (page = 1) => {
+      if (initialDataLoaded && page === 1 ) return;
+
+      try {
+        setIsLoading(true)
+        const response = await getCategoryData('',page);
+        if (page === 1) {
+          setInitialDataLoaded(true);
+          setCategories(response.data.categories);
+        } else {
+          setCategories(prev => [...prev, ...response.data.categories]);
+        }        if (response.data.totalPages != page) {
+          await fetchCategories(page + 1);
+        }
+        
+        setIsLoading(false)
+      } catch (error) {
+        setIsLoading(false)
+        console.error('Error fetching categories:', error);
+      }
+    };
     function handleImageSelect(e){
       const fileInput = document.createElement('input');
       fileInput.type = 'file';
@@ -90,6 +115,14 @@ const AddSpareParts = ({spareData ,setOpen,setSpares}) => {
           setIsLoading(false);
         }
       }
+
+      useEffect(() => {
+        if (!initialDataLoaded) {
+        fetchCategories();
+        }
+      }, []);
+
+
   return (
     <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40'>
     <div className="bg-zinc-800  w-full max-w-3xl p-12 top-3 h-[90vh] overflow-auto rounded-lg shadow-md relative">
@@ -151,6 +184,21 @@ const AddSpareParts = ({spareData ,setOpen,setSpares}) => {
             </div>
         
           </div>
+          <div>
+  <label className="block text-sm font-medium text-zinc-400">Category</label>
+  <select
+    value={data.category}
+    onChange={(e) => setData({...data, category: e.target.value})}
+    className="mt-1 block w-full border border-zinc-900 bg-zinc-700 rounded-md shadow-sm p-2"
+  >
+    <option value="">Select a category</option>
+    {categories.map((category) => (
+      <option key={category._id} value={category._id}>
+        {category.name}
+      </option>
+    ))}
+  </select>
+</div>
         
    
 

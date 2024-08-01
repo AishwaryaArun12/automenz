@@ -3,6 +3,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminPrivateRoute from "./Components/AdminPrivateRoute";
 import AdminLayout from './Components/Layout/AdminLayout';
+import Categories from "./Pages/Category/Categories";
 import CustomerDetail from "./Pages/Customers/CustomerDetails";
 import Customers from './Pages/Customers/Customers';
 import { Dashboard } from './Pages/Dashboard';
@@ -36,6 +37,7 @@ function App() {
               <Route path="/spares" element={<SpareParts />} />
               <Route path="/customers/:id" element={<CustomerDetail />} />
               <Route path="/serviceDetails/:id" element={<ServiceDetails />} />
+              <Route path="/categories" element={<Categories />} />
 
             </Route>
           </Route>

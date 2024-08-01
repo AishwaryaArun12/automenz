@@ -71,3 +71,15 @@ export const NewClient = async (data) => {
   export const getServiceDetails = async (id) => {
     return await BulkInstance.get(`service/get/${id}`);
   };
+  export const EditCategory = async (data) => {
+    return await BulkInstance.put(`spare/update/category/${data._id}`,data);
+  };
+  export const NewCategory = async (data) => {
+    return await BulkInstance.post("spare/add/category",data);
+  };
+  export const getCategoryData = async (search,page) => {
+    return await BulkInstance.get(`spare/all/category?search=${search}&&page=${page}`);
+  };
+  export const DeleteCategory = async (id) => {
+    return await BulkInstance.delete(`spare/delete/category/${id}`);
+  };

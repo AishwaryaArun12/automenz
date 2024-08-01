@@ -220,36 +220,36 @@ function FoodSideBar() {
               <span className="ms-3 ">Vehicles</span>
             </a>
           </li>
-          {/* <li>
+          <li>
             <a
               onClick={() => {
-                navigate("/orders");
+                navigate("/categories");
                 // dispatch(openSidebar());
                 
               }}
               href="#"
               className={`flex pl-7 items-center p-3  group w-full ${
-                window.location.pathname === "/orders"
+                window.location.pathname === "/categories"
                   ? "text-yellow-300 border-l-4 border-l-yellow-300 "
                   : "text-white"
               } `}
               style={{
                 background: `${
-                  window.location.pathname === "/orders"
+                  window.location.pathname === "/categories"
                     ? " rgba(48, 43, 14, 1)"
                     : ""
                 }`,
               }}
             >
-             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M8.19464 4.32558H7.48674C7.10162 4.32558 6.78906 4.63814 6.78906 5.02326V7.34884C6.78906 7.73395 7.10162 8.04651 7.48674 8.04651H15.8588C16.2439 8.04651 16.5565 7.73395 16.5565 7.34884V5.02326C16.5565 4.63814 16.2439 4.32558 15.8588 4.32558H15.1509C15.0328 3.0214 13.937 2 12.603 2H10.7426C9.4086 2 8.31278 3.0214 8.19464 4.32558Z" fill="#858D9D"/>
-<path fill-rule="evenodd" clip-rule="evenodd" d="M5.86047 5.25391H5.62791C4.72837 5.25391 4 5.98321 4 6.88181V20.3702C4 21.2697 4.7293 21.9981 5.62791 21.9981C8.16465 21.9981 15.1842 21.9981 17.7209 21.9981C18.6195 21.9981 19.3488 21.2697 19.3488 20.3702V6.88181C19.3488 5.98321 18.6205 5.25391 17.7209 5.25391H17.4884V7.34693C17.4884 8.24553 16.7591 8.97484 15.8605 8.97484H7.48837C6.58977 8.97484 5.86047 8.24553 5.86047 7.34693V5.25391ZM7.95349 18.2772H15.3953C15.7805 18.2772 16.093 17.9646 16.093 17.5795C16.093 17.1944 15.7805 16.8818 15.3953 16.8818H7.95349C7.56837 16.8818 7.25581 17.1944 7.25581 17.5795C7.25581 17.9646 7.56837 18.2772 7.95349 18.2772ZM7.95349 15.0213H15.3953C15.7805 15.0213 16.093 14.7088 16.093 14.3237C16.093 13.9386 15.7805 13.626 15.3953 13.626H7.95349C7.56837 13.626 7.25581 13.9386 7.25581 14.3237C7.25581 14.7088 7.56837 15.0213 7.95349 15.0213ZM9.34884 11.7655H14C14.3851 11.7655 14.6977 11.453 14.6977 11.0679C14.6977 10.6827 14.3851 10.3702 14 10.3702H9.34884C8.96372 10.3702 8.65116 10.6827 8.65116 11.0679C8.65116 11.453 8.96372 11.7655 9.34884 11.7655Z" fill="#858D9D"/>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M4 6H20M4 12H20M4 18H11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
 </svg>
 
 
-              <span className="ms-3 ">Order History</span>
+
+              <span className="ms-3 ">Categories</span>
             </a>
-          </li> */}
+          </li>
           <li>
             <a
               onClick={() => {
