@@ -37,12 +37,13 @@ const NotificationBar = ({
 
   const handleScrollToBottom = () => {
     console.log('reached bottok')
+    if(notficationlength >= navbardata.length) return;
     getAllNotification(paginatecount + 1);
   };
 
   const handleScroll = (e) => {
     const { scrollTop, scrollHeight, clientHeight } = e.target;
-    if (scrollHeight - scrollTop <= clientHeight + 5) {
+    if (scrollHeight - scrollTop <= clientHeight + 1) {
       handleScrollToBottom();
     }
   };
