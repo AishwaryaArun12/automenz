@@ -97,16 +97,16 @@ const Customers = () => {
                 {data?.name}
               </td>
               <td class="px-4 py-2">{data?.company}</td>
-              <td class="px-4 py-2">{data.email}</td>
+              <td class="px-4 py-2">{data?.email}</td>
               <td class="px-4 py-2">
                 
                 {data.location}
               </td>
               <td class="px-4 py-2">
-                <span class="text-yellow-500">{data.contactNumber}</span>
+                <span class="text-yellow-500">{data?.contactNumber}</span>
               </td>
               <td class="px-4 py-5 flex justify-center items-center">
-                <button className="p-0.5 flex mx-2 bg-yellow-400 rounded-md" onClick={()=>{setClientName(data.name); setId(data._id); setAddVehicle(true)}}>
+                <button className="p-0.5 flex mx-2 bg-yellow-400 rounded-md" onClick={()=>{setClientName(data?.name); setId(data?._id); setAddVehicle(true)}}>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-black" viewBox="0 0 20 20" fill="currentColor">
     <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
   </svg>
