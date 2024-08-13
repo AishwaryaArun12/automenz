@@ -32,7 +32,7 @@ export const Dashboard = () => {
     <div>
       <div className='grid grid-cols-1 lg:grid-cols-4 gap-4'>
       <Card  text={'Totoal Customers'} num={card?.clients}/>
-      <Card  text={'Totoal Vehicles'} num={card?.clients}/>
+      <Card  text={'Totoal Vehicles'} num={card?.vehicles}/>
       <Card  text={'Totoal Services'} num={card?.services}/>
       <Card  text={'Totoal Spareparts'} num={card?.spares}/>
       </div>
