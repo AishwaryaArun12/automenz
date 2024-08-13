@@ -93,7 +93,8 @@ const AddCustomer = ({setOpen,setClients,clientData}) => {
         toast('Client data updated successfully');
       }else{
         const res = await NewClient({...data, image: file});
-        setClients((prev) => ({...prev, clients: [...prev.clients,res.data.client]}));
+        console.log(res.data,'jjjkjkjjjoj');
+        setClients((prev) => ({...prev, clients: [...prev.clients,res.data]}));
         setOpen(false);
         toast('Client data added successfully');
       }

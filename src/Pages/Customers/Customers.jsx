@@ -100,7 +100,7 @@ const Customers = () => {
               <td class="px-4 py-2">{data?.email}</td>
               <td class="px-4 py-2">
                 
-                {data.location}
+                {data?.location}
               </td>
               <td class="px-4 py-2">
                 <span class="text-yellow-500">{data?.contactNumber}</span>
