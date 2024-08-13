@@ -79,7 +79,7 @@ const AddCustomer = ({setOpen,setClients,clientData}) => {
         }
     }
     try {
-      if(data){
+      if(data._id){
         console.log(data._id,'www')
         const res = await EditClient({...data, image: file})
         console.log(res.data.client, 'ddddddddd')
