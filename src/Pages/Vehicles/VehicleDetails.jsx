@@ -91,7 +91,7 @@ const VehicleDetails = () => {
               </tr>
             </thead>
             <tbody>
-              {vehicle.services.map((service, index) => (
+              {vehicle.services.length ? vehicle.services.map((service, index) => (
                 <tr key={index} className={index % 2 === 0 ? 'bg-[#1F222A]' : ''}>
                   <td className="px-4 py-2">{new Date(service.serviceDate).toLocaleDateString()}</td>
                   <td className="px-4 py-2">{service.serviceType}</td>
@@ -101,7 +101,7 @@ const VehicleDetails = () => {
                   <td className="px-4 py-2 text-wrap">{service.mandatorySpares.map(spare=>spare.spare.name).join(', ')}</td>
 
                 </tr>
-              ))}
+              )) : <div className="text-center my-20 w-full text-gray-400">No services found</div>}
             </tbody>
           </table>
         </div>
