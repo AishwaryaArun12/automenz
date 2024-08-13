@@ -128,7 +128,7 @@ const Customers = () => {
               <td class="px-4 py-2 text-green-500"><div
          
           onClick={() => {
-            navigate(`/customers/${data._id}`);
+            navigate(`/customers/${data?._id}`);
           }}
           className="bg-yellow-400 rounded-full w-9 h-9 p-2 px-4  cursor-pointer"
         >
