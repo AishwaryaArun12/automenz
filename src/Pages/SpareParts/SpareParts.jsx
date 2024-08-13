@@ -123,7 +123,7 @@ const SpareParts = () => {
           <span class="text-yellow-500">{data.qty}</span>
         </td>
         <td class="px-4 py-2">{data?.price}</td>
-        <td class="px-4 py-2">{data?.validity == 1 ? '1 Year' : `${data?.validity} Years`}</td>
+        <td class="px-4 py-2">{data?.validity == 1 ? '1 Year' : `${data?.validity} Months`}</td>
         <td class="px-4 py-2">{data?.category.name}</td>
 
         <td className=' flex items-center'>
