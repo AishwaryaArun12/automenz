@@ -19,7 +19,7 @@ const NotificationBar = ({
     setLoading(true);
     getNotification(page)
       .then(({ data }) => {
-        
+        console.log(data);
         setNavbardata((prev)=> [...prev,...data?.notifications]);
         setntfLengt(data?.totalCount);
         setPaginatecount(page)
@@ -32,13 +32,13 @@ const NotificationBar = ({
   };
 
   useEffect(() => {
-    getAllNotification();
+    getAllNotification(paginatecount);
   }, []);
 
   const handleScrollToBottom = () => {
-    console.log('reached bottok')
+    console.log('reached bottok',notficationlength,navbardata)
     if(notficationlength <= navbardata.length) return;
-    getAllNotification(paginatecount + 3);
+    getAllNotification(paginatecount + 1);
   };
 
   const handleScroll = (e) => {
