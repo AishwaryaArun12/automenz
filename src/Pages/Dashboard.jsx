@@ -105,16 +105,16 @@ export const Dashboard = () => {
               </td>
 
               <td className="px-5 py-3 text-sm">
-              <div className="flex items-center gap-2">
+              {data.spares.map((spare)=><div className="flex items-center gap-2">
                   <div className="w-10 h-10 overflow-hidden rounded-full bg-[#1F222A]">
                     <img
-                      src={data?.spare?.image ? data?.spare?.image : "/spare.jpeg"}
+                      src={spare?.image ? data?.spare?.image : "/spare.jpeg"}
                       className="w-10 h-10 rounded-full"
                       alt=""
                     />
                   </div>
-                  {data?.spare?.name}
-                </div>
+                  {spare?.name}
+                </div>)}
               </td>
             </tr>)}
            
