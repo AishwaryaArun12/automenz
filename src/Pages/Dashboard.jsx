@@ -68,8 +68,8 @@ export const Dashboard = () => {
           </thead>
           <tbody className="border-b-2  border-b-[#3F3F3F]">
             {tableData.map((data,i) => <tr className="" style={{ height: "50px" }}>
-              <td className="px-5 py-3 text-sm whitespace-nowrap">
-                <div className="flex items-center gap-2">
+              <td className="px-5 py-3 text-sm whitespace-nowrap ">
+                <div className="flex items-center lg:justify-center gap-2">
                   <div className="w-10 h-10 overflow-hidden rounded-full bg-[#1F222A]">
                     <img
                       src={data.vehicleImage ? data?.vehicleImage : '/car1.jpeg'}
@@ -80,12 +80,12 @@ export const Dashboard = () => {
                   {data.vehicleModel} {data.vehicleMaker}
                 </div>
               </td>
-              <td className="px-5 py-3 text-sm">{data?.reg}</td>
+              <td className="px-5 py-3 text-sm lg:text-start">{data?.reg}</td>
 
               {/* <td className="px-5 py-3 text-sm">{new Date(data.date).toLocaleDateString()}</td> */}
 
               <td className="px-5 py-3 text-sm whitespace-nowrap">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center lg:justify-center gap-2">
                   <div className="w-10 h-10 overflow-hidden rounded-full bg-[#1F222A]">
                     <img
                       src={data?.clientImage ? data?.clientImage : "/user.png"}
@@ -105,7 +105,7 @@ export const Dashboard = () => {
               </td>
 
               <td className="px-5 py-3 text-sm whitespace-nowrap">
-              {data.spares.map((spare)=><div className="flex items-center gap-2">
+              {data.spares.map((spare)=><div className="flex items-center lg:justify-center gap-2">
                   <div className="w-10 h-10 overflow-hidden rounded-full bg-[#1F222A]">
                     <img
                       src={spare?.image ? data?.spare?.image : "/spare.jpeg"}
