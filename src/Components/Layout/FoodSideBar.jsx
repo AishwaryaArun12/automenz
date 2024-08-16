@@ -224,7 +224,7 @@ function FoodSideBar() {
             <a
               onClick={() => {
                 navigate("/categories");
-                // dispatch(openSidebar());
+                setIsNav(false)
                 
               }}
               href="#"
@@ -296,6 +296,7 @@ function FoodSideBar() {
             <a
               onClick={() => {
                 navigate("/spares");
+                setIsNav(false)
                }}
               href="#"
               className={`flex pl-7 items-center p-3  group w-full ${
