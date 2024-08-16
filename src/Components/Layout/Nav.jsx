@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import wavFile from '../../../public/MsgTone.mp3';
 import { getNotcount } from "../../api/api";
 import { onMessageListener } from "../../store/Firebase";
 import { useNav } from "../../store/NavContext";
@@ -46,7 +45,7 @@ function NavBar() {
           .then((payload) => {
               console.log(payload, "its coming here");
 
-              const audio = new Audio(wavFile);
+              const audio = new Audio('/MsgTone.mp3');
               audio.play().catch((err) => {
                   console.log(err);
               });

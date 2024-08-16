@@ -1,5 +1,5 @@
 import { default as React, useEffect, useState } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast} from 'react-toastify';
 import { DeleteCategory, getCategoryData } from '../../api/api';
 import DeleteModal from '../../Components/DeleteModal';
 import { Paginations } from '../../Components/Pagination/Paginations';
@@ -59,7 +59,6 @@ const Categories = () => {
     }
   return (
     <div class="min-h-screen  text-white p-4">
-    <ToastContainer/>
     <div className="flex flex-col space-y-4 mb-6 md:flex-row md:items-center md:justify-between md:space-y-0">
   <div className="flex justify-between items-center md:w-auto">
     <h1 className="text-2xl">Category</h1>

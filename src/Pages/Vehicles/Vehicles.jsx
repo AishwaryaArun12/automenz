@@ -1,6 +1,6 @@
 import { default as React, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { DeleteVehicle, getVehicleData } from '../../api/api';
 import DeleteModal from '../../Components/DeleteModal';
 import { Paginations } from '../../Components/Pagination/Paginations';
@@ -61,7 +61,6 @@ const Vehicles = () => {
   }
   return (
     <div class="min-h-screen  text-white p-4">
-        <ToastContainer/>
     <div class="flex justify-between items-center mb-6">
       <h1 class="text-2xl">Vehicles</h1>
       <div class="relative">

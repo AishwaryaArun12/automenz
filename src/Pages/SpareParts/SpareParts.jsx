@@ -1,5 +1,5 @@
 import { default as React, useEffect, useState } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { DeleteSpare, getSpareData } from '../../api/api';
 import DeleteModal from '../../Components/DeleteModal';
 import { Paginations } from '../../Components/Pagination/Paginations';
@@ -59,7 +59,6 @@ const SpareParts = () => {
     }
   return (
     <div class="min-h-screen  text-white p-4">
-    <ToastContainer/>
     <div className="flex flex-col space-y-4 mb-6 md:flex-row md:items-center md:justify-between md:space-y-0">
   <div className="flex justify-between items-center md:w-auto">
     <h1 className="text-2xl">Spare Parts</h1>
@@ -123,7 +122,7 @@ const SpareParts = () => {
         <td class="px-4 py-2 whitespace-nowrap">
           <span class="text-yellow-500">{i+1}</span>
         </td>
-        <td class="px-4 py-2 flex items-center whitespace-nowrap justify-center">
+        <td class="px-4 py-2 flex items-center whitespace-nowrap justify-start">
           <img
             src={data?.image ? data?.image : '/spare.jpeg'}
             alt="Spare"
@@ -132,9 +131,12 @@ const SpareParts = () => {
           {data?.name}
         </td>
        
-        <td class="px-4 py-2 whitespace-nowrap text-center">
-          <span class="text-yellow-500">{data.qty}</span>
-        </td>
+        <td class="px-2 py-2 whitespace-nowrap">
+  <div class="flex justify-center items-center h-full">
+    <span class="text-yellow-500">{data.qty}</span>
+  </div>
+</td>
+
         <td class="px-4 py-2 whitespace-nowrap">{data?.price}</td>
         <td class="px-4 py-2 whitespace-nowrap">{data?.validity == 1 ? '1 Year' : `${data?.validity} Months`}</td>
         <td class="px-4 py-2 whitespace-nowrap">{data?.category.name}</td>
