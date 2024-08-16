@@ -88,39 +88,39 @@ const Vehicles = () => {
     </div>
     
     <div class="bg-[#0A0A0B] p-4 rounded-lg shadow-md overflow-x-auto">
-      <table class="min-w-full text-left">
+      <table class="min-w-full text-left text-sm lg:text-sm">
         <thead className="border-b border-b-zinc-700">
           <tr>
-            <th class="px-4 py-2">Model</th>
-            <th class="px-4 py-2">Maker</th>
+            <th class="px-4 py-2 whitespace-nowrap">Model</th>
+            <th class="px-4 py-2whitespace-nowrap">Maker</th>
             
-            <th class="px-4 py-2">Colour</th>
-            <th class="px-4 py-2">Client</th>
-            <th class="px-4 py-2">Client Phone</th>
-            <th className='px-4 py-2'>Actions</th>
+            <th class="px-4 py-2 whitespace-nowrap">Colour</th>
+            <th class="px-4 py-2 whitespace-nowrap">Client</th>
+            <th class="px-4 py-2 whitespace-nowrap">Client Phone</th>
+            <th className='px-4 py-2 whitespace-nowrap'>Actions</th>
             {/* <th class="px-4 py-2">Delete</th> */}
           </tr>
         </thead>
         <tbody>
         {tableData?.vehicles?.length ? tableData?.vehicles.map((data)=> <tr >
-            <td class="px-4 py-2 flex items-center">
+            <td class="px-4 py-2 whitespace-nowrap flex items-center justify-center">
               <img
                 src={data?.image ? data?.image : '/car1.jpeg'}
                 alt="Vehicle"
                 class="w-10 h-10 rounded-full mr-4"
               />
-              {data?.maker}
+              {data?.model}
             </td>
-            <td class="px-4 py-2">{data?.model}</td>
+            <td class="px-4 py-2 whitespace-nowrap">{data?.maker}</td>
             
-            <td class="px-4 py-2">
+            <td class="px-4 py-2 whitespace-nowrap">
               <span class="text-yellow-500">{data.color}</span>
             </td>
-            <td class="px-4 py-2">{data?.client.name}</td>
-            <td class="px-4 py-2">{data?.client.contactNumber}</td>
+            <td class="px-4 py-2 whitespace-nowrap">{data?.client.name}</td>
+            <td class="px-4 py-2 whitespace-nowrap">{data?.client.contactNumber}</td>
            
-            <td className=' flex justify-center items-center'>
-            <button className="p-2 bg-[#1F222A] rounded-l-md border border-gray-800" onClick={()=>{setData(data); setOpen(true)}}>
+            <td className='whitespace-nowrap flex justify-center items-center'>
+            <button className="p-2  bg-[#1F222A] rounded-l-md border border-gray-800" onClick={()=>{setData(data); setOpen(true)}}>
             <svg width="15" height="14" viewBox="0 0 15 14" fill="#e2e8fa" xmlns="http://www.w3.org/2000/svg">
             <g opacity="0.6">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M8.06535 8.15755L6.05469 8.44518L6.34177 6.43397L11.5125 1.26322C11.9885 0.787261 12.7602 0.787261 13.2361 1.26322C13.7121 1.73917 13.7121 2.51084 13.2361 2.9868L8.06535 8.15755Z" stroke="#6F757E" stroke-width="0.918314" stroke-linecap="round" stroke-linejoin="round"/>

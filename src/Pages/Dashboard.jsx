@@ -31,10 +31,10 @@ export const Dashboard = () => {
   return (
     <div>
       <div className='grid grid-cols-1 lg:grid-cols-4 gap-4'>
-      <Card  text={'Totoal Customers'} num={card?.clients}/>
-      <Card  text={'Totoal Vehicles'} num={card?.vehicles}/>
-      <Card  text={'Totoal Services'} num={card?.services}/>
-      <Card  text={'Totoal Spareparts'} num={card?.spares}/>
+      <Card  text={'Total Customers'} num={card?.clients}/>
+      <Card  text={'Total Vehicles'} num={card?.vehicles}/>
+      <Card  text={'Total Services'} num={card?.services}/>
+      <Card  text={'Total Spareparts'} num={card?.spares}/>
       </div>
       <h1 className='text-white/65 text-3xl'>Upcoming Services</h1>
       {/* table start */}
@@ -49,12 +49,12 @@ export const Dashboard = () => {
                 Vehicle
               </th>
              
-              <th className="px-5 py-6  text-left text-sm font-semibold  capitalize tracking-wider">
+              <th className="px-5 py-6 whitespace-nowrap  text-left text-sm font-semibold  capitalize tracking-wider">
                 Vehicle No.
               </th>
-              <th className="px-5 py-6  text-left text-sm font-semibold  capitalize tracking-wider">
+              {/* <th className="px-5 py-6  text-left text-sm font-semibold  capitalize tracking-wider">
                 Service Date
-              </th>
+              </th> */}
               <th className="px-5 py-6   text-sm font-semibold  capitalize tracking-wider">
                 Customer
               </th>
@@ -68,7 +68,7 @@ export const Dashboard = () => {
           </thead>
           <tbody className="border-b-2  border-b-[#3F3F3F]">
             {tableData.map((data,i) => <tr className="" style={{ height: "50px" }}>
-              <td className="px-5 py-3 text-sm">
+              <td className="px-5 py-3 text-sm whitespace-nowrap">
                 <div className="flex items-center gap-2">
                   <div className="w-10 h-10 overflow-hidden rounded-full bg-[#1F222A]">
                     <img
@@ -82,9 +82,9 @@ export const Dashboard = () => {
               </td>
               <td className="px-5 py-3 text-sm">{data?.reg}</td>
 
-              <td className="px-5 py-3 text-sm">{new Date(data.date).toLocaleDateString()}</td>
+              {/* <td className="px-5 py-3 text-sm">{new Date(data.date).toLocaleDateString()}</td> */}
 
-              <td className="px-5 py-3 text-sm">
+              <td className="px-5 py-3 text-sm whitespace-nowrap">
                 <div className="flex items-center gap-2">
                   <div className="w-10 h-10 overflow-hidden rounded-full bg-[#1F222A]">
                     <img
@@ -104,7 +104,7 @@ export const Dashboard = () => {
                 </div>
               </td>
 
-              <td className="px-5 py-3 text-sm">
+              <td className="px-5 py-3 text-sm whitespace-nowrap">
               {data.spares.map((spare)=><div className="flex items-center gap-2">
                   <div className="w-10 h-10 overflow-hidden rounded-full bg-[#1F222A]">
                     <img

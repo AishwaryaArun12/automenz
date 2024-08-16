@@ -43,37 +43,51 @@ const Customers = () => {
   }
   return (
     <div class="min-h-screen  text-white p-4">
-      <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl">Clients</h1>
-        <div class="relative">
-          <input
-            type="text"
-            placeholder="Search..."
-            class="bg-[#0A0A0B] text-white p-2 pl-10 rounded-md focus:outline-none"
-            value={search}
-            onChange={(e)=>setSearch(e.target.value)}
-          />
-          <svg
-            class="w-5 h-5 text-zinc-500 absolute left-3 top-3"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M12.9 14.32a8 8 0 111.414-1.414l4.387 4.387a1 1 0 01-1.414 1.414l-4.387-4.387zM8 14A6 6 0 108 2a6 6 0 000 12z"
-              clip-rule="evenodd"
-            ></path>
-          </svg>
-        </div>
-        <div>
-              <button onClick={()=>{setData();setOpen(true)}} className="text-black  p-2 inline-flex font-semibold items-center h-9 rounded-lg bg-yellow-400">
-                Add Client
-              </button>
-            </div>
-      </div>
+     <div className="flex flex-col space-y-4 mb-6 md:flex-row md:items-center md:justify-between md:space-y-0">
+  <div className="flex justify-between items-center md:w-auto">
+    <h1 className="text-2xl">Clients</h1>
+    <button 
+      onClick={() => {setData(); setOpen(true)}} 
+      className="text-black p-2 inline-flex font-semibold items-center h-9 rounded-lg bg-yellow-400 md:hidden"
+    >
+      Add Client
+    </button>
+  </div>
+  
+  <div className="relative w-full md:w-auto md:ml-40 md:flex-grow md:mx-4">
+    <input
+      type="text"
+      placeholder="Search..."
+      className="w-full bg-[#0A0A0B] text-white p-2 pl-10 rounded-md focus:outline-none"
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+    />
+    <svg
+      className="w-5 h-5 text-zinc-500 absolute left-3 top-1/2 transform -translate-y-1/2"
+      fill="currentColor"
+      viewBox="0 0 20 20"
+    >
+      <path
+        fillRule="evenodd"
+        d="M12.9 14.32a8 8 0 111.414-1.414l4.387 4.387a1 1 0 01-1.414 1.414l-4.387-4.387zM8 14A6 6 0 108 2a6 6 0 000 12z"
+        clipRule="evenodd"
+      ></path>
+    </svg>
+  </div>
+
+  <div className="hidden md:block">
+    <button 
+      onClick={() => {setData(); setOpen(true)}} 
+      className="text-black p-2 inline-flex font-semibold items-center h-9 rounded-lg bg-yellow-400"
+    >
+      Add Client
+    </button>
+  </div>
+</div>
+
       
       <div class="bg-[#0A0A0B] p-4 rounded-lg shadow-md overflow-x-auto">
-        <table class="min-w-full text-left">
+        <table class="min-w-full text-left whitespace-nowrap">
           <thead className="border-b border-b-zinc-700">
             <tr>
               <th class="px-4 py-2">Name</th>
@@ -81,14 +95,14 @@ const Customers = () => {
               <th class="px-4 py-2">Email</th>
               <th class="px-4 py-2">Location</th>
               <th class="px-4 py-2">Phone</th>
-              <th class="px-4 py-2"><span className=' text-lg'> + </span> Vehicle</th>
+              <th class="px-4 py-2 whitespace-nowrap"><span className=' text-lg'> + </span> Vehicle</th>
               <th className='px-4 py-2'>Edit</th>
               <th class="px-4 py-2">More</th>
             </tr>
           </thead>
           <tbody>
           {tableData?.clients?.length ? tableData?.clients.map((data)=> <tr >
-              <td class="px-4 py-2 flex items-center">
+              <td class="px-4 py-6 flex items-center whitespace-nowrap justify-center">
                 <img
                   src={data?.image ? data?.image : '/user.png'}
                   alt="Customer"
@@ -105,7 +119,7 @@ const Customers = () => {
               <td class="px-4 py-2">
                 <span class="text-yellow-500">{data?.contactNumber}</span>
               </td>
-              <td class="px-4 py-5 flex justify-center items-center">
+              <td class="px-4 py-5 ">
                 <button className="p-0.5 flex mx-2 bg-yellow-400 rounded-md" onClick={()=>{setClientName(data?.name); setId(data?._id); setAddVehicle(true)}}>
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-black" viewBox="0 0 20 20" fill="currentColor">
     <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />

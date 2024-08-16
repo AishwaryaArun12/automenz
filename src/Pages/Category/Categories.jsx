@@ -60,35 +60,51 @@ const Categories = () => {
   return (
     <div class="min-h-screen  text-white p-4">
     <ToastContainer/>
-<div class="flex justify-between items-center mb-6">
-  <h1 class="text-2xl">Category</h1>
-  <div class="relative">
+    <div className="flex flex-col space-y-4 mb-6 md:flex-row md:items-center md:justify-between md:space-y-0">
+  <div className="flex justify-between items-center md:w-auto">
+    <h1 className="text-2xl">Category</h1>
+    <button 
+      onClick={() => {setData(); setOpen(true)}} 
+      className="text-black p-2 inline-flex font-semibold items-center h-9 rounded-lg bg-yellow-400 md:hidden"
+    >
+      Add Category
+    </button>
+  </div>
+  
+  <div className="relative w-full md:w-auto md:ml-40 md:flex-grow md:mx-4">
     <input
       type="text"
       placeholder="Search..."
-      class="bg-[#0A0A0B] text-white p-2 pl-10 rounded-md focus:outline-none"
+      className="w-full bg-[#0A0A0B] text-white p-2 pl-10 rounded-md focus:outline-none"
       value={search}
-      onChange={(e)=>setSearch(e.target.value)}
+      onChange={(e) => setSearch(e.target.value)}
     />
     <svg
-      class="w-5 h-5 text-zinc-500 absolute left-3 top-3"
+      className="w-5 h-5 text-zinc-500 absolute left-3 top-1/2 transform -translate-y-1/2"
       fill="currentColor"
       viewBox="0 0 20 20"
     >
       <path
-        fill-rule="evenodd"
+        fillRule="evenodd"
         d="M12.9 14.32a8 8 0 111.414-1.414l4.387 4.387a1 1 0 01-1.414 1.414l-4.387-4.387zM8 14A6 6 0 108 2a6 6 0 000 12z"
-        clip-rule="evenodd"
+        clipRule="evenodd"
       ></path>
     </svg>
   </div>
-  <div>
-    <button onClick={()=>{setData();setOpen(true)}} className="text-black  p-2 inline-flex font-semibold items-center h-9 rounded-lg bg-yellow-400">
-    Add Category
+
+  <div className="hidden md:block">
+    <button 
+      onClick={() => {setData(); setOpen(true)}} 
+      className="text-black p-2 inline-flex font-semibold items-center h-9 rounded-lg bg-yellow-400"
+    >
+      Add Category
     </button>
+  </div>
 </div>
- 
-</div>
+
+
+
+
 
 <div class="bg-[#0A0A0B] p-4 rounded-lg shadow-md overflow-x-auto">
   <table class="min-w-full text-left">

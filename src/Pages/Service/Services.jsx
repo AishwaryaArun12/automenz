@@ -113,46 +113,46 @@ const Services = () => {
         <table class="min-w-full text-gray-200 overflow-x-auto text-left">
         <thead className="border-b border-b-[#3F3F3F]">
     <tr>
-      <th className="px-5 py-6 text-sm font-semibold capitalize tracking-wider">
+      <th className="whitespace-nowrap px-5 py-6 text-sm font-semibold capitalize tracking-wider">
         Vehicle
       </th>
-      <th className="px-5 py-6 text-sm font-semibold capitalize tracking-wider">
+      <th className="whitespace-nowrap px-5 py-6 text-sm font-semibold capitalize tracking-wider">
         Client Name
       </th>
-      <th className="px-5 py-6 text-sm font-semibold capitalize tracking-wider">
+      <th className="whitespace-nowrap px-5 py-6 text-sm font-semibold capitalize tracking-wider">
         Phone
       </th>
-      <th className="px-5 py-6 text-sm font-semibold capitalize tracking-wider">
+      <th className="whitespace-nowrap px-5 py-6 text-sm font-semibold capitalize tracking-wider">
         Service Type
       </th>
-      <th className="px-5 py-6 text-sm font-semibold capitalize tracking-wider">
+      <th className="whitespace-nowrap px-5 py-6 text-sm font-semibold capitalize tracking-wider">
         Service Date
       </th>
-      <th className="px-5 py-6 text-sm font-semibold capitalize tracking-wider">
+      <th className="whitespace-nowrap px-5 py-6 text-sm font-semibold capitalize tracking-wider">
         Spares
       </th>
       
-      <th className="px-5 py-6 text-sm font-semibold capitalize tracking-wider">
+      <th className="whitespace-nowrap px-5 py-6 text-sm font-semibold capitalize tracking-wider">
         Actions
       </th>
     </tr>
   </thead>
           <tbody>
           {tableData?.services?.length ? tableData?.services.map((service,i)=> <tr key={i} className="" style={{ height: "50px" }}>
-        <td className="px-5 py-3 text-sm">
+        <td className="whitespace-nowrap px-5 py-3 text-sm">
           {service?.vehicle?.registrationNumber}
         </td>
-        <td className="px-5 py-3 text-sm">
+        <td className="whitespace-nowrap px-5 py-3 text-sm">
           {service.vehicle?.client?.name}
         </td>
-        <td className="px-5 py-3 text-sm">
+        <td className="whitespace-nowrap px-5 py-3 text-sm">
           {service.vehicle.client.contactNumber}
         </td>
-        <td className="px-5 py-3 text-sm">{service.serviceType}</td>
+        <td className="whitespace-nowrap px-5 py-3 text-sm">{service.serviceType}</td>
         <td className="px-5 py-3 text-sm">
           {new Date(service.serviceDate).toLocaleDateString()}
         </td>
-        <td className="px-5 py-3 text-sm">
+        <td className="whitespace-nowrap px-5 py-3 text-sm">
           <ul >
             <p className='py-2 text-yellow-600'>Replaced Spares</p>
             {service.replacedSpares.map((spare, index) => (
@@ -181,7 +181,7 @@ const Services = () => {
           </ul>
         </td>
        
-        <td className="px-5 py-3 text-sm">
+        <td className="whitespace-nowrap px-5 py-3 text-sm">
         <div 
             onClick={() => navigate(`/serviceDetails/${service._id}`)}
             className=" border border-gray-700 bg-[#1F222A] hover:bg-gray-500 w-10 h-8 p-1 flex items-center justify-center cursor-pointer my-4 rounded-md"
