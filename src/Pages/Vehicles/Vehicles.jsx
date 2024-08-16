@@ -103,7 +103,7 @@ const Vehicles = () => {
         </thead>
         <tbody>
         {tableData?.vehicles?.length ? tableData?.vehicles.map((data)=> <tr >
-            <td class="px-4 py-2 whitespace-nowrap flex items-center justify-center">
+            <td class="px-4 py-2 whitespace-nowrap flex items-center justtify-start mr-3">
               <img
                 src={data?.image ? data?.image : '/car1.jpeg'}
                 alt="Vehicle"
@@ -119,7 +119,7 @@ const Vehicles = () => {
             <td class="px-4 py-2 whitespace-nowrap">{data?.client.name}</td>
             <td class="px-4 py-2 whitespace-nowrap">{data?.client.contactNumber}</td>
            
-            <td className='whitespace-nowrap flex justify-center items-center'>
+            <td className='whitespace-nowrap flex items-center'>
             <button className="p-2  bg-[#1F222A] rounded-l-md border border-gray-800" onClick={()=>{setData(data); setOpen(true)}}>
             <svg width="15" height="14" viewBox="0 0 15 14" fill="#e2e8fa" xmlns="http://www.w3.org/2000/svg">
             <g opacity="0.6">
