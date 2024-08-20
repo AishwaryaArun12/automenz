@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import { getSpareData, getVehicleData } from '../../api/api';
 import { useLoading } from '../../store/LoadingContext';
+import { Dropdown } from './Dropdown';
 
 const CreateServiceModal = ({ open, setOpen, onSubmit }) => {
   const [spares, setSpares] = useState([]);
@@ -177,7 +178,7 @@ const {setIsLoading} = useLoading();
 
   return (
     <div className="fixed inset-0 z-40 bg-gray-900 bg-opacity-75 overflow-y-auto h-full w-full">
-      <div className="relative top-3 mx-auto p-5 w-1/2 shadow-lg rounded-md overflow-y-auto bg-gray-800">
+      <div className="relative top-3 mx-auto p-5 w-full lg:w-1/2 shadow-lg rounded-md overflow-y-auto bg-gray-800">
       <div className='flex justify-between items-center'>
      <ToastContainer/>
       <h2 className="text-2xl font-semibold mb-4 text-white">Create New Service</h2>
@@ -187,11 +188,11 @@ const {setIsLoading} = useLoading();
       </div>
       </div>
         <form onSubmit={handleSubmit}>
-        <div className="mb-4">
+        <div className="mb-4 relative">
         <label className="block text-gray-400 text-sm font-bold mb-2">
           Vehicle ID
         </label>
-        <div className='grid grid-cols-2'>
+        <div className='grid grid-cols-2 '>
           <select
             name="vehicleId"
             value={formData.vehicleId}
@@ -261,85 +262,45 @@ const {setIsLoading} = useLoading();
                         ></path>
                       </svg>
                     </div>
-          {['replacedSpares', 'renewalSpares'].map((spareType) => (
-            <div key={spareType} className="mb-4">
-              <div className='grid grid-cols-4 gap-4'>
-              <label className="block text-gray-400 text-sm font-bold mb-2">
-                {spareType.charAt(0).toUpperCase() + spareType.slice(1)}
-              </label>
-              <button
-                type="button"
-                onClick={() => addSpare(spareType)}
-                className="text-yellow-600 mb-3 mx-auto hover:text-black hover:bg-yellow-600 bg-gray-900 font-bold py-1 px-2 rounded text-sm"
-              >
-                + Add
-              </button>
+                    {['replacedSpares', 'renewalSpares', 'mandatorySpares', 'recommendedSpares'].map((spareType) => (
+            <div key={spareType} className="mb-6 overflow-visible">
+              <div className='grid grid-cols-2 lg:grid-cols-4 gap-4 mb-2'>
+                <label className="block text-gray-400 text-sm font-bold">
+                  {spareType.charAt(0).toUpperCase() + spareType.slice(1)}
+                </label>
+                <button
+                  type="button"
+                  onClick={() => spareType.includes('Spares') ? addSpare(spareType) : recSpare(spareType)}
+                  className="text-yellow-600 hover:text-black hover:bg-yellow-600 bg-gray-900 font-bold py-1 px-2 rounded text-sm"
+                >
+                  + Add
+                </button>
               </div>
-              {formData[spareType].map((spare, index) => (
-                <div key={index} className="flex mb-8 space-x-6">
-                  <select
-                    value={spare.spare}
-                    onChange={(e) => handleSpareChange(spareType, index, 'spare', e.target.value)}
-                    className="shadow appearance-none border border-black focus:border-yellow-500 rounded w-2/3 py-2 px-3 text-gray-200 bg-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2"
-                  >
-                    <option value="">Select a spare</option>
-                    {spares.map((s) => (
-                      <option key={s._id} value={s._id}>{s.name}</option>
-                    ))}
-                  </select>
-                  <input
-                    type="number"
-                    value={spare.quantity}
-                    onChange={(e) => handleSpareChange(spareType, index, 'quantity', e.target.value)}
-                    placeholder="Quantity"
-                    className="shadow appearance-none border border-black focus:border-yellow-500 rounded w-1/3 py-2 px-3 text-gray-200 bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  />
-                </div>
-              ))}
-              
+             
+  {formData[spareType].map((spare, index) => (
+    <div key={index} className="flex flex-col md:flex-row mb-4 space-y-2 md:space-y-0 md:space-x-4">
+      <Dropdown
+        label="Select Spare"
+        options={spares.map(s => ({ value: s._id, label: s.name }))}
+        value={spare.spare}
+        onChange={(value) => handleSpareChange(spareType, index, 'spare', value)}
+      />
+      <div className="w-full md:w-1/3 flex flex-col">
+        <label className="block text-gray-400 text-sm font-bold mb-2">
+          {spareType === 'replacedSpares' || spareType === 'renewalSpares' ? 'Quantity' : 'Validity'}
+        </label>
+        <input
+          type="number"
+          value={spare.quantity || spare.validity}
+          onChange={(e) => handleSpareChange(spareType, index, spareType === 'replacedSpares' || spareType === 'renewalSpares' ? 'quantity' : 'validity', e.target.value)}
+          className="shadow appearance-none border border-black focus:border-yellow-500 rounded py-2 px-3 text-gray-200 bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        />
+      </div>
+    </div>
+  ))}
             </div>
           ))}
-          {[ 'mandatorySpares', 'recommendedSpares'].map((spareType) => (
-            <div key={spareType} className="mb-4">
-              <div className='grid grid-cols-4 gap-4'>
-              <label className="block text-gray-400 text-sm font-bold mb-2">
-                {spareType.charAt(0).toUpperCase() + spareType.slice(1)}
-              </label>
-              <button
-                type="button"
-                onClick={() => recSpare(spareType)}
-                className="text-yellow-600 mb-3 mx-auto hover:text-black hover:bg-yellow-600 bg-gray-900 font-bold py-1 px-2 rounded text-sm"
-              >
-                + Add
-              </button>
-              </div>
-              {formData[spareType].map((spare, index) => (
-                <div key={index} className="flex mb-8 space-x-6">
-                  <select
-                    value={spare.spare}
-                    onChange={(e) => handleSpareChange(spareType, index, 'spare', e.target.value)}
-                    className="shadow appearance-none border border-black focus:border-yellow-500 rounded w-2/3 py-2 px-3 text-gray-200 bg-gray-700 leading-tight focus:outline-none focus:shadow-outline mr-2"
-                  >
-                    <option value="">Select a spare</option>
-                  
-                    
-                 
-                    {spares.map((s) => (
-                      <option key={s._id} value={s._id}>{s.name}</option>
-                    ))}
-                  </select>
-                  <input
-                    type="number"
-                    value={spare.validity}
-                    onChange={(e) => handleSpareChange(spareType, index, 'validity', e.target.value)}
-                    placeholder="Validity"
-                    className="shadow appearance-none border border-black focus:border-yellow-500 rounded w-1/3 py-2 px-3 text-gray-200 bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  />
-                </div>
-              ))}
-              
-            </div>
-          ))}
+          
           {hasMoreSpares && (
             <button
               type="button"
