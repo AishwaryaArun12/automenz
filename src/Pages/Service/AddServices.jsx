@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
-import { getSpareData, getVehicleData } from '../../api/api';
+import { getSpareData, getVehicleData, NewService, EditService } from '../../api/api';
 import { useLoading } from '../../store/LoadingContext';
 import { Dropdown } from './Dropdown';
 
-const CreateServiceModal = ({ open, setOpen, onSubmit }) => {
+const CreateServiceModal = ({ open, setOpen, onSubmit, editMode = false, initialData = null }) => {
   const [spares, setSpares] = useState([]);
   const [sparesPage, setSparesPage] = useState(1);
   const [initialDataLoaded, setInitialDataLoaded] = useState(false);
   const [hasMoreSpares, setHasMoreSpares] = useState(true);
-  const [search,setSearch] = useState('')
-  const [page,setPage] = useState(1)
+  const [search, setSearch] = useState('');
+  const [page, setPage] = useState(1);
   const [formData, setFormData] = useState({
     vehicleId: '',
     serviceType: '',
@@ -21,44 +21,66 @@ const CreateServiceModal = ({ open, setOpen, onSubmit }) => {
     recommendedSpares: []
   });
   const [vehicles, setVehicles] = useState([]);
-const [vehiclePage, setVehiclePage] = useState(1);
-const [hasMoreVehicles, setHasMoreVehicles] = useState(true);
-const {setIsLoading} = useLoading();
+  const [vehiclePage, setVehiclePage] = useState(1);
+  const [hasMoreVehicles, setHasMoreVehicles] = useState(true);
+  const { setIsLoading } = useLoading();
 
   useEffect(() => {
     if (open && !initialDataLoaded) {
       setIsLoading(true);
       fetchVehicles();
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }, [open,vehiclePage]);
+  }, [open, vehiclePage]);
+
   useEffect(() => {
     if (open && !initialDataLoaded) {
       setIsLoading(true);
       fetchSpares();
-     setIsLoading(false)
+      setIsLoading(false);
     }
   }, [open, page]);
-  function onClose(){
-    setSpares();
-    setVehicles();
-    setOpen(false)
-  }
+
   useEffect(() => {
-    setPage(1); // Reset to first page when search term changes
+    if (open && editMode && initialData) {
+      setFormData({
+        ...initialData,
+        vehicleId: initialData.vehicle._id,
+        serviceDate: new Date(initialData.serviceDate).toISOString().split('T')[0],
+        replacedSpares: initialData.replacedSpares.map(s => ({ spare: s.spare._id, quantity: s.quantity })),
+        renewalSpares: initialData.renewalSpares.map(s => ({ spare: s.spare._id, quantity: s.quantity })),
+        mandatorySpares: initialData.mandatorySpares.map(s => ({ spare: s.spare._id, validity: s.validity })),
+        recommendedSpares: initialData.recommendedSpares.map(s => ({ spare: s.spare._id, validity: s.validity }))
+      });
+    }
+  }, [open, editMode, initialData]);
+
+  function onClose() {
+    setSpares([]);
+    setVehicles([]);
+    setOpen(false);
+  }
+
+  useEffect(() => {
+    setPage(1);
     fetchSpares();
   }, [search]);
 
 
-  const fetchSpares = async () => {
+  const removeSpare = (type, index) => {
+    setFormData(prevData => ({
+      ...prevData,
+      [type]: prevData[type].filter((_, i) => i !== index)
+    }));
+  };
 
+
+  const fetchSpares = async () => {
     if (initialDataLoaded && page === 1 && !search.length) return;
     try {
-
       const response = await getSpareData(search, page);
       const newSpares = response.data.spareParts;
       setSpares(page === 1 ? newSpares : prevSpares => [...prevSpares, ...newSpares]);
-     
       setHasMoreSpares(newSpares.length === 7);
       if (page === 1) setInitialDataLoaded(true);
     } catch (error) {
@@ -72,7 +94,6 @@ const {setIsLoading} = useLoading();
       const response = await getVehicleData('', vehiclePage);
       const newVehicles = response.data.vehicles;
       setVehicles(page === 1 ? newVehicles : prevVehicles => [...prevVehicles, ...newVehicles]);
-      
       setHasMoreVehicles(newVehicles.length === 10);
       if (page === 1) setInitialDataLoaded(true);
     } catch (error) {
@@ -102,7 +123,6 @@ const {setIsLoading} = useLoading();
     
     setFormData({ ...formData, [type]: updatedSpares });
   };
-  
 
   const addSpare = (type) => {
     setFormData({
@@ -110,6 +130,7 @@ const {setIsLoading} = useLoading();
       [type]: [...formData[type], { spare: '', quantity: 1 }]
     });
   };
+
   const recSpare = (type) => {
     setFormData({
       ...formData,
@@ -117,60 +138,59 @@ const {setIsLoading} = useLoading();
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+
     // Validation checks
     if (!formData.vehicleId) {
       toast.error("Please select a vehicle");
-      setIsLoading(false)
+      setIsLoading(false);
       return;
     }
     
     if (!formData.serviceType.trim()) {
       toast.error("Service type is required");
-      setIsLoading(false)
+      setIsLoading(false);
       return;
     }
     
     if (!formData.serviceDate) {
       toast.error("Please select a service date");
-      setIsLoading(false)
+      setIsLoading(false);
       return;
     }
     
     const allSpares = [
       ...formData.replacedSpares,
       ...formData.renewalSpares,
-      
     ];
     const spares = [
       ...formData.mandatorySpares,
       ...formData.recommendedSpares
-    ]
+    ];
     
     if (allSpares.some(spare => !spare.spare || spare.quantity <= 0)) {
       toast.error("Replaced and Recommanded spares must have a selection and a valid quantity");
-      setIsLoading(false)
+      setIsLoading(false);
       return;
     }
     if (spares.some(spare => !spare.spare || spare.validity <= 0)) {
       toast.error("Recommanded and Mandatory spares must have a selection and a valid validity");
-      setIsLoading(false)
+      setIsLoading(false);
       return;
     }
     
-    // If all validations pass, submit the form
     try {
-      onSubmit(formData);
-      toast.success("Service created successfully");
-      setOpen(false);
-      setIsLoading(false)
-      // Reset form data here if needed
-    } catch (error) {
-      toast.error("Error creating service: " + error.message);
-      setIsLoading(false)
+    
       
+      onSubmit(formData,editMode);
+      toast.success(editMode ? "Service updated successfully" : "Service created successfully");
+      setOpen(false);
+    } catch (error) {
+      toast.error(`Error ${editMode ? 'updating' : 'creating'} service: ${error.message}`);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -181,7 +201,7 @@ const {setIsLoading} = useLoading();
       <div className="relative top-3 mx-auto p-5 w-full lg:w-1/2 shadow-lg rounded-md overflow-y-auto bg-gray-800">
       <div className='flex justify-between items-center'>
      <ToastContainer/>
-      <h2 className="text-2xl font-semibold mb-4 text-white">Create New Service</h2>
+      <h2 className="text-2xl font-semibold mb-4 text-white">{editMode ? 'Edit Service' : 'Create New Service'}</h2>
       <div className='rounded-full border border-red-600 px-2 cursor-pointer'>
 
       <button onClick={onClose} className="text-red-500 text-xl">&times;</button>
@@ -193,17 +213,17 @@ const {setIsLoading} = useLoading();
           Vehicle ID
         </label>
         <div className='grid grid-cols-2 '>
-          <select
-            name="vehicleId"
-            value={formData.vehicleId}
-            onChange={handleChange}
-            className="shadow appearance-none border border-black focus:border-yellow-500 rounded w-full py-2 px-3 text-gray-200 bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          >
-            <option value="">Select a vehicle</option>
-            {vehicles.map((vehicle) => (
-              <option key={vehicle._id} value={vehicle._id}>{vehicle.client.name + ' : ' + vehicle.registrationNumber}</option>
-            ))}
-          </select>
+        <select
+      name="vehicleId"
+      value={formData.vehicleId}
+      onChange={handleChange}
+      className="shadow appearance-none border border-black focus:border-yellow-500 rounded w-full py-2 px-3 text-gray-200 bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+    >
+      <option value="">Select a vehicle</option>
+      {vehicles.map((vehicle) => (
+        <option key={vehicle._id} value={vehicle._id}>{vehicle.client.name + ' : ' + vehicle.registrationNumber}</option>
+      ))}
+    </select>
           {hasMoreVehicles && (
           <button
             type="button"
@@ -270,7 +290,7 @@ const {setIsLoading} = useLoading();
                 </label>
                 <button
                   type="button"
-                  onClick={() => spareType.includes('Spares') ? addSpare(spareType) : recSpare(spareType)}
+                  onClick={() => spareType === 'replacedSpares' || spareType === 'renewalSpares' ? addSpare(spareType) : recSpare(spareType)}
                   className="text-yellow-600 hover:text-black hover:bg-yellow-600 bg-gray-900 font-bold py-1 px-2 rounded text-sm"
                 >
                   + Add
@@ -280,22 +300,33 @@ const {setIsLoading} = useLoading();
   {formData[spareType].map((spare, index) => (
     <div key={index} className="flex flex-col md:flex-row mb-4 space-y-2 md:space-y-0 md:space-x-4">
       <Dropdown
-        label="Select Spare"
-        options={spares.map(s => ({ value: s._id, label: s.name }))}
-        value={spare.spare}
-        onChange={(value) => handleSpareChange(spareType, index, 'spare', value)}
-      />
-      <div className="w-full md:w-1/3 flex flex-col">
+              label="Select Spare"
+              options={spares.map(s => ({ value: s._id, label: s.name }))}
+              value={spare.spare}
+              onChange={(value) => handleSpareChange(spareType, index, 'spare', value)}
+            />
+      <div className="w-full md:w-1/2 flex flex-col">
         <label className="block text-gray-400 text-sm font-bold mb-2">
           {spareType === 'replacedSpares' || spareType === 'renewalSpares' ? 'Quantity' : 'Validity'}
         </label>
+        <div className='flex'>
         <input
           type="number"
           value={spare.quantity || spare.validity}
           onChange={(e) => handleSpareChange(spareType, index, spareType === 'replacedSpares' || spareType === 'renewalSpares' ? 'quantity' : 'validity', e.target.value)}
           className="shadow appearance-none border border-black focus:border-yellow-500 rounded py-2 px-3 text-gray-200 bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         />
+         <button
+              type="button"
+              onClick={() => removeSpare(spareType, index)}
+              className="bg-red-700/100 text-xs ml-3 hover:bg-red-500 text-gray-300 font-bold  px-1 rounded"
+            >
+              Remove
+            </button>
+        </div>
+        
       </div>
+     
     </div>
   ))}
             </div>
@@ -315,7 +346,7 @@ const {setIsLoading} = useLoading();
               type="submit"
               className="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
-              Create Service
+             {editMode ? 'Update Service' : 'Create Service'}
             </button>
             <button
               type="button"

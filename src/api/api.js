@@ -52,6 +52,9 @@ export const NewClient = async (data) => {
   export const NewService = async (data) => {
     return await BulkInstance.post("service/add",data);
   };
+  export const EditService = async (data) => {
+    return await BulkInstance.put(`service/update/${data._id}`,data);
+  };
   export const DeleteService = async (id) => {
     return await BulkInstance.delete(`service/delete/${id}`);
   };

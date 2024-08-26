@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { DeleteService, getServiceData, NewService } from '../../api/api'
+import { DeleteService, EditService, getServiceData, NewService } from '../../api/api'
 import DeleteModal from '../../Components/DeleteModal'
 import { Paginations } from '../../Components/Pagination/Paginations'
 import { useLoading } from '../../store/LoadingContext'
@@ -20,6 +20,8 @@ const Services = () => {
   const [data, setData] = useState();
   const [id,setId] = useState('');
   const [deleteModal,setDeleteModal] = useState(false)
+  const [initialData,setInitialData] = useState(null);
+  const [editMode,setEditMode] = useState(false)
   async function deleteService(){
     try {
       setIsLoading(true);
@@ -40,9 +42,20 @@ const Services = () => {
   }
   }
 
-  const handleSubmit = async (formData) => {
-    const res = await NewService(formData);
+  const handleSubmit = async (formData,editMode) => {
+    if(editMode){
+      const res = await EditService(formData);
+      toast('Service Updated successfully.')
+      setEditMode(false);
+      setInitialData(null);
     getService()
+    }else{
+      const res = await NewService(formData);
+      getService()
+      toast('Service Added successfully.')
+    }
+    setOpen(false);
+
   };
   async function getService(){
     try {
@@ -101,7 +114,7 @@ const Services = () => {
           <div className="flex justify-between items-center">
             <div></div>
             <div>
-              <button onClick={() => setOpen(true)} className="text-black  p-2 inline-flex font-semibold items-center h-9 rounded-lg bg-yellow-400">
+              <button onClick={() => {setEditMode(false); setInitialData(null); setOpen(true)}} className="text-black  p-2 inline-flex font-semibold items-center h-9 rounded-lg bg-yellow-400">
                 Add Service
               </button>
        
@@ -190,13 +203,25 @@ const Services = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             </div>
+            <button className="p-2 bg-[#1F222A] rounded-l-md border border-gray-700" onClick={()=>{setOpen(true); setEditMode(true);
+    setInitialData(service);}}>
+        <svg width="15" height="14" viewBox="0 0 15 14" fill="#e2e8fa" xmlns="http://www.w3.org/2000/svg">
+        <g opacity="0.6">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M8.06535 8.15755L6.05469 8.44518L6.34177 6.43397L11.5125 1.26322C11.9885 0.787261 12.7602 0.787261 13.2361 1.26322C13.7121 1.73917 13.7121 2.51084 13.2361 2.9868L8.06535 8.15755Z" stroke="#6F757E" stroke-width="0.918314" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M10.9375 1.83594L12.6611 3.55952" stroke="#6F757E" stroke-width="0.918314" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M11.1562 8.21875V12.2812C11.1562 12.73 10.7925 13.0938 10.3438 13.0938H2.21875C1.77002 13.0938 1.40625 12.73 1.40625 12.2812V4.15625C1.40625 3.70752 1.77002 3.34375 2.21875 3.34375H6.28125" stroke="#6F757E" stroke-width="0.918314" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+        </svg>
+
+        </button>
+        
         <button
     
     onClick={() => {
       setDeleteModal(true);
       setId(service._id)
     }}
-       className="p-2 px-3 bg-[#1F222A] hover:bg-gray-500 rounded-md border border-gray-700"
+       className="p-2 px-3 bg-[#1F222A] hover:bg-gray-500 rounded-r-md border border-gray-700"
    >
    <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
        <path fill-rule="evenodd" clip-rule="evenodd" d="M10.9094 13.0156H4.08438C3.5459 13.0156 3.10938 12.5791 3.10938 12.0406V3.26562H11.8844V12.0406C11.8844 12.5791 11.4479 13.0156 10.9094 13.0156Z" stroke="#F85949" stroke-width="0.918314" stroke-linecap="round" stroke-linejoin="round"/>
@@ -221,7 +246,7 @@ const Services = () => {
         <div className=" flex justify-center mt-4 mb-5">     
          <Paginations totalPage={count} handlePageChange={handlePageChange}/></div>
       </div>}
-      {open &&  <AddServices existingData={data} onSubmit={handleSubmit} open={open}  setOpen={setOpen}/>}
+      {open &&  <AddServices editMode ={editMode} initialData ={initialData} existingData={data} onSubmit={handleSubmit} open={open}  setOpen={setOpen}/>}
       {deleteModal && <DeleteModal setDeleteModal={setDeleteModal} deleteFn={deleteService}/>}
 
     </div>
