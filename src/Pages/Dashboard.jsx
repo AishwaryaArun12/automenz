@@ -31,10 +31,10 @@ export const Dashboard = () => {
   return (
     <div>
       <div className='grid grid-cols-1 lg:grid-cols-4 gap-4'>
-      <Card  text={'Total Customers'} num={card?.clients}/>
-      <Card  text={'Total Vehicles'} num={card?.vehicles}/>
-      <Card  text={'Total Services'} num={card?.services}/>
-      <Card  text={'Total Spareparts'} num={card?.spares}/>
+      <Card  text={'Total Customers'} num={card?.clients} href={'/customers'}/>
+      <Card  text={'Total Vehicles'} num={card?.vehicles} href={'/vehicles'}/>
+      <Card  text={'Total Services'} num={card?.services} href={'/service'}/>
+      <Card  text={'Total Spareparts'} num={card?.spares} href={'/spares'}/>
       </div>
       <h1 className='text-white/65 text-3xl'>Upcoming Services</h1>
       {/* table start */}

@@ -1,8 +1,10 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 
-export const Card = ({text,num}) => {
+export const Card = ({text,num,href}) => {
+  const navigate = useNavigate();
   return (
-    <div className="w-full shadow-md border border-gray-800 rounded-xl shadow-gray-800 bor mb-10 relative h-44 text-white ">
+    <div onClick={()=> navigate(href)} className="w-full shadow-md border border-gray-800 rounded-xl shadow-gray-800 bor mb-10 relative h-44 text-white ">
   <img src="/card1.png" className="absolute top-0 bottom-0 left-0 w-full h-full right-0 z-0" alt="" />
   <div className='flex my-4'>
   <svg className="z-10 mx-5 " width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
