@@ -3,10 +3,14 @@ import { toast } from "react-toastify";
 import { getDashboard } from "../api/api";
 import { Card } from '../Components/Card';
 import { useLoading } from "../store/LoadingContext";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+
 export const Dashboard = () => {
   const {setIsLoading} = useLoading();
   const [card, setCard] = useState();
   const [tableData,setTableData] = useState([]);
+  const [monthlyServiceData, setMonthlyServiceData] = useState([]);
+  
   useEffect(()=>{
     (async function(){
       try {
@@ -15,6 +19,7 @@ export const Dashboard = () => {
         const res = await getDashboard(); 
         setCard(res.data)
         console.log(res.data,'wwwwww')
+        setMonthlyServiceData(res.data.monthlyServices);
         setTableData(res.data.expiredSpares)
         setIsLoading(false)
       } catch (error) {
@@ -36,6 +41,27 @@ export const Dashboard = () => {
       <Card  text={'Total Services'} num={card?.services} href={'/service'}/>
       <Card  text={'Total Spareparts'} num={card?.spares} href={'/spares'}/>
       </div>
+      <h1 className='text-white/65 text-3xl mt-8'>Monthly Services</h1>
+<div className="w-full h-80 mt-4">
+  <ResponsiveContainer width="100%" height="100%">
+    <BarChart
+      data={monthlyServiceData}
+      margin={{
+        top: 5,
+        right: 30,
+        left: 20,
+        bottom: 5,
+      }}
+    >
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="month" />
+      <YAxis />
+      <Tooltip />
+      <Legend />
+      <Bar dataKey="services" fill="#8884d8" />
+    </BarChart>
+  </ResponsiveContainer>
+</div>
       <h1 className='text-white/65 text-3xl'>Upcoming Services</h1>
       {/* table start */}
       <div
